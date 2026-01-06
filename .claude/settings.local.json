@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm run dev:*)",
+      "Bash(tree:*)",
+      "WebSearch",
+      "WebFetch(domain:unsplash.com)",
+      "WebFetch(domain:www.pexels.com)",
+      "Bash(npm run build:*)",
+      "WebFetch(domain:app.houseofcb.com)",
+      "Bash(find:*)",
+      "Bash(curl:*)",
+      "Bash(cat:*)"
+    ]
+  }
+}

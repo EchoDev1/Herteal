@@ -1,0 +1,606 @@
+@import "tailwindcss";
+
+/* Herteal Luxury Design System - House of CB Inspired */
+:root {
+  /* Color Palette - Luxury E-commerce with Green Touch */
+  --color-ivory: #FFFFFF;
+  --color-warm-white: #FAF9F7;
+  --color-cream: #F5F5DC;
+  --color-charcoal: #2D2D2D;
+  --color-soft-gray: #6B6B6B;
+  --color-light-gray: #E5E5E5;
+  --color-whisper-gray: #F0F0F0;
+  --color-border: #F0F0F0;
+
+  /* Brand Colors - Green Focus */
+  --color-forest-green: #2C5530;
+  --color-dark-green: #1E3D22;
+  --color-sage-green: #87A96B;
+  --color-light-sage: #C8D5B9;
+  --color-wine: #8B0000;
+  --color-burgundy: #6B0000;
+
+  /* Background & Foreground */
+  --background: var(--color-ivory);
+  --foreground: var(--color-charcoal);
+
+  /* Typography - House of CB Style */
+  --font-heading: var(--font-playfair);
+  --font-body: var(--font-montserrat);
+
+  /* Spacing */
+  --spacing-section: 5rem; /* 80px */
+  --spacing-section-mobile: 3rem; /* 48px */
+  --spacing-component: 2rem; /* 32px */
+  --spacing-element: 1.5rem; /* 24px */
+  --spacing-small: 1rem; /* 16px */
+  --spacing-tiny: 0.5rem; /* 8px */
+
+  /* Max Width */
+  --max-width: 1400px;
+}
+
+@theme inline {
+  /* Base Colors */
+  --color-ivory: #FFFFFF;
+  --color-warm-white: #FAF9F7;
+  --color-cream: #F5F5DC;
+  --color-charcoal: #2D2D2D;
+  --color-soft-gray: #6B6B6B;
+  --color-light-gray: #E5E5E5;
+  --color-whisper-gray: #F0F0F0;
+  --color-border: #F0F0F0;
+
+  /* Brand Colors - Green Theme */
+  --color-forest-green: #2C5530;
+  --color-dark-green: #1E3D22;
+  --color-sage-green: #87A96B;
+  --color-light-sage: #C8D5B9;
+  --color-wine: #8B0000;
+  --color-burgundy: #6B0000;
+
+  /* Font Families */
+  --font-heading: var(--font-playfair);
+  --font-body: var(--font-montserrat);
+  --font-cormorant: var(--font-cormorant-garamond);
+  --font-inter: var(--font-inter-variable);
+}
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), serif;
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--color-charcoal);
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3rem); /* Responsive 32-48px */
+}
+
+h2 {
+  font-size: clamp(1.5rem, 4vw, 2.25rem); /* Responsive 24-36px */
+}
+
+h3 {
+  font-size: clamp(1.25rem, 3vw, 1.5rem); /* Responsive 20-24px */
+}
+
+p {
+  margin-bottom: 1rem;
+  color: var(--color-soft-gray);
+  line-height: 1.8;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-forest-green);
+}
+
+/* Buttons */
+button {
+  font-family: var(--font-body), sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Focus Styles */
+*:focus-visible {
+  outline: 2px solid var(--color-forest-green);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background: var(--color-sage-green);
+  color: white;
+}
+
+/* Scrollbar (webkit) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-warm-white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-light-gray);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-soft-gray);
+}
+
+/* Utility Classes */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section-padding {
+  padding: var(--spacing-section) 0;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding: var(--spacing-section-mobile) 0;
+  }
+}
+
+/* Elegant Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-slideDown {
+  animation: slideDown 0.8s ease-out forwards;
+}
+
+.animate-slideUp {
+  animation: slideUp 0.8s ease-out forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.8s ease-out forwards;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(201, 168, 130, 0.3) 50%,
+    transparent 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 3s infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* State-of-the-Art Animations for Nigerian Luxury */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(-10deg) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(217, 119, 6, 0.6);
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.6s ease-out forwards;
+}
+
+.animate-slideInBottom {
+  animation: slideInFromBottom 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-rotateIn {
+  animation: rotateIn 0.7s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-glowPulse {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+.animate-gradientShift {
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+/* Stagger animation delays */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+
+/* Falling Stars Rain Animation - Forms Queen Crown Shape */
+
+/* Star 1 - Left peak (medium height) */
+@keyframes fallStar1 {
+  0% {
+    opacity: 0;
+    transform: translateY(-150px) translateX(-5px) rotate(0deg);
+  }
+  30% {
+    opacity: 0.5;
+    transform: translateY(-80px) translateX(-3px) rotate(180deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-20px) translateX(-1px) rotate(360deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(25px) translateX(0px) rotate(360deg);
+  }
+}
+
+/* Star 2 - Left-center valley (short) */
+@keyframes fallStar2 {
+  0% {
+    opacity: 0;
+    transform: translateY(-140px) translateX(15px) rotate(0deg);
+  }
+  30% {
+    opacity: 0.5;
+    transform: translateY(-75px) translateX(17px) rotate(180deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-15px) translateX(19px) rotate(360deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(38px) translateX(20px) rotate(360deg);
+  }
+}
+
+/* Star 3 - Center peak (tallest - Queen's crown top) */
+@keyframes fallStar3 {
+  0% {
+    opacity: 0;
+    transform: translateY(-180px) translateX(35px) rotate(0deg) scale(0.8);
+  }
+  30% {
+    opacity: 0.6;
+    transform: translateY(-100px) translateX(37px) rotate(180deg) scale(0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-30px) translateX(39px) rotate(360deg) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(10px) translateX(40px) rotate(360deg) scale(1.1);
+  }
+}
+
+/* Star 4 - Right-center valley (short) */
+@keyframes fallStar4 {
+  0% {
+    opacity: 0;
+    transform: translateY(-140px) translateX(55px) rotate(0deg);
+  }
+  30% {
+    opacity: 0.5;
+    transform: translateY(-75px) translateX(57px) rotate(180deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-15px) translateX(59px) rotate(360deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(38px) translateX(60px) rotate(360deg);
+  }
+}
+
+/* Star 5 - Right peak (medium height) */
+@keyframes fallStar5 {
+  0% {
+    opacity: 0;
+    transform: translateY(-150px) translateX(75px) rotate(0deg);
+  }
+  30% {
+    opacity: 0.5;
+    transform: translateY(-80px) translateX(77px) rotate(180deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-20px) translateX(79px) rotate(360deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(25px) translateX(80px) rotate(360deg);
+  }
+}
+
+/* Star 6 - Left base (crown band) */
+@keyframes fallStar6 {
+  0% {
+    opacity: 0;
+    transform: translateY(-120px) translateX(5px) rotate(0deg);
+  }
+  35% {
+    opacity: 0.5;
+    transform: translateY(-60px) translateX(7px) rotate(180deg);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-10px) translateX(9px) rotate(360deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(52px) translateX(10px) rotate(360deg);
+  }
+}
+
+/* Star 7 - Right base (crown band) */
+@keyframes fallStar7 {
+  0% {
+    opacity: 0;
+    transform: translateY(-120px) translateX(65px) rotate(0deg);
+  }
+  35% {
+    opacity: 0.5;
+    transform: translateY(-60px) translateX(67px) rotate(180deg);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-10px) translateX(69px) rotate(360deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(52px) translateX(70px) rotate(360deg);
+  }
+}
+
+/* Star 8 - Center base (crown band) */
+@keyframes fallStar8 {
+  0% {
+    opacity: 0;
+    transform: translateY(-120px) translateX(35px) rotate(0deg);
+  }
+  35% {
+    opacity: 0.5;
+    transform: translateY(-60px) translateX(37px) rotate(180deg);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-10px) translateX(39px) rotate(360deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(52px) translateX(40px) rotate(360deg);
+  }
+}
+
+.animate-fall-star-1 {
+  animation: fallStar1 1.5s ease-out forwards;
+}
+
+.animate-fall-star-2 {
+  animation: fallStar2 1.5s ease-out forwards;
+}
+
+.animate-fall-star-3 {
+  animation: fallStar3 1.5s ease-out forwards;
+}
+
+.animate-fall-star-4 {
+  animation: fallStar4 1.5s ease-out forwards;
+}
+
+.animate-fall-star-5 {
+  animation: fallStar5 1.5s ease-out forwards;
+}
+
+.animate-fall-star-6 {
+  animation: fallStar6 1.5s ease-out forwards;
+}
+
+.animate-fall-star-7 {
+  animation: fallStar7 1.5s ease-out forwards;
+}
+
+.animate-fall-star-8 {
+  animation: fallStar8 1.5s ease-out forwards;
+}
+
+/* Sparkle Effect for Crown Stars */
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  25% {
+    opacity: 0.7;
+    transform: scale(1.2);
+    filter: brightness(1.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  75% {
+    opacity: 0.8;
+    transform: scale(1.1);
+    filter: brightness(1.3);
+  }
+}
+
+.animate-sparkle {
+  animation: sparkle 2.5s ease-in-out infinite;
+  animation-delay: 1.8s; /* Start sparkling after stars have fallen */
+}

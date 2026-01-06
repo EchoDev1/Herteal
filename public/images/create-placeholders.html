@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editorial Image Placeholders Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c5530;
+            border-bottom: 3px solid #d4af37;
+            padding-bottom: 10px;
+        }
+        .placeholder {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #d4af37;
+        }
+        .placeholder h3 {
+            margin-top: 0;
+            color: #2c5530;
+        }
+        canvas {
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+            max-width: 100%;
+        }
+        button {
+            background: linear-gradient(135deg, #2c5530, #1e3d22);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #1e3d22, #2c5530);
+        }
+        .info {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #2c5530;
+        }
+        .warning {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #d4af37;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ Herteal Editorial Image Placeholders</h1>
+
+        <div class="info">
+            <strong>ℹ️ Purpose:</strong> This tool creates temporary placeholder images for your editorial section.
+            These will display while you download the actual professional photos.
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Note:</strong> These are temporary placeholders. Replace them with actual African luxury fashion photos
+            from Unsplash or Pexels for the best results. See DOWNLOAD_GUIDE.md for details.
+        </div>
+
+        <div class="placeholder">
+            <h3>1. editorial-1.jpg - Featured Story Image</h3>
+            <p><strong>Size:</strong> 1920 x 1080 (Landscape)</p>
+            <canvas id="canvas1" width="1920" height="1080"></canvas>
+            <br>
+            <button onclick="generateImage(1, 1920, 1080, 'Featured Story\nLuxury African Fashion', '#2c5530', '#d4af37')">Generate</button>
+            <button onclick="downloadImage(1, 'editorial-1.jpg')">Download</button>
+        </div>
+
+        <div class="placeholder">
+            <h3>2. editorial-2.jpg - Full-Width Editorial</h3>
+            <p><strong>Size:</strong> 1920 x 1080 (Wide Landscape)</p>
+            <canvas id="canvas2" width="1920" height="1080"></canvas>
+            <br>
+            <button onclick="generateImage(2, 1920, 1080, 'Fashion Excellence\nEvery Detail Tells a Story', '#1e3d22', '#d4af37')">Generate</button>
+            <button onclick="downloadImage(2, 'editorial-2.jpg')">Download</button>
+        </div>
+
+        <div class="placeholder">
+            <h3>3. editorial-3.jpg - Timeless Classics</h3>
+            <p><strong>Size:</strong> 800 x 1200 (Portrait)</p>
+            <canvas id="canvas3" width="800" height="1200"></canvas>
+            <br>
+            <button onclick="generateImage(3, 800, 1200, 'Timeless\nClassics', '#2c5530', '#d4af37')">Generate</button>
+            <button onclick="downloadImage(3, 'editorial-3.jpg')">Download</button>
+        </div>
+
+        <div class="placeholder">
+            <h3>4. editorial-4.jpg - Bold Statements</h3>
+            <p><strong>Size:</strong> 800 x 1200 (Portrait)</p>
+            <canvas id="canvas4" width="800" height="1200"></canvas>
+            <br>
+            <button onclick="generateImage(4, 800, 1200, 'Bold\nStatements', '#d4af37', '#2c5530')">Generate</button>
+            <button onclick="downloadImage(4, 'editorial-4.jpg')">Download</button>
+        </div>
+
+        <div class="placeholder">
+            <h3>5. editorial-5.jpg - Refined Details</h3>
+            <p><strong>Size:</strong> 800 x 1200 (Portrait)</p>
+            <canvas id="canvas5" width="800" height="1200"></canvas>
+            <br>
+            <button onclick="generateImage(5, 800, 1200, 'Refined\nDetails', '#4a4a4a', '#d4af37')">Generate</button>
+            <button onclick="downloadImage(5, 'editorial-5.jpg')">Download</button>
+        </div>
+
+        <div class="info">
+            <h3>📋 How to Use:</h3>
+            <ol>
+                <li>Click "Generate" for each placeholder to preview it</li>
+                <li>Click "Download" to save the image</li>
+                <li>Move the downloaded images to: <code>C:\Users\USER\Desktop\herteal\public\images\</code></li>
+                <li>Replace with professional photos when ready</li>
+            </ol>
+        </div>
+
+        <button onclick="generateAll()" style="background: linear-gradient(135deg, #d4af37, #b8941f); font-size: 18px; padding: 15px 30px;">
+            🎨 Generate All Placeholders
+        </button>
+        <button onclick="downloadAll()" style="background: linear-gradient(135deg, #2c5530, #1e3d22); font-size: 18px; padding: 15px 30px;">
+            💾 Download All
+        </button>
+    </div>
+
+    <script>
+        function generateImage(num, width, height, text, color1, color2) {
+            const canvas = document.getElementById(`canvas${num}`);
+            const ctx = canvas.getContext('2d');
+
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, width, height);
+            gradient.addColorStop(0, color1);
+            gradient.addColorStop(1, color2);
+
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+
+            // Add pattern
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < width; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, height);
+                ctx.stroke();
+            }
+
+            // Add text
+            ctx.fillStyle = 'white';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            const lines = text.split('\n');
+            const fontSize = Math.min(width, height) / 15;
+            ctx.font = `bold ${fontSize}px Arial`;
+
+            const lineHeight = fontSize * 1.2;
+            const startY = (height / 2) - ((lines.length - 1) * lineHeight / 2);
+
+            lines.forEach((line, index) => {
+                ctx.fillText(line, width / 2, startY + (index * lineHeight));
+            });
+
+            // Add brand name
+            ctx.font = `${fontSize * 0.4}px Arial`;
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.fillText('HERTEAL', width / 2, height - fontSize);
+
+            // Add size info
+            ctx.font = `${fontSize * 0.3}px Arial`;
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.fillText(`${width} × ${height}`, width / 2, fontSize);
+        }
+
+        function downloadImage(num, filename) {
+            const canvas = document.getElementById(`canvas${num}`);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/jpeg', 0.95);
+            link.click();
+        }
+
+        function generateAll() {
+            generateImage(1, 1920, 1080, 'Featured Story\nLuxury African Fashion', '#2c5530', '#d4af37');
+            generateImage(2, 1920, 1080, 'Fashion Excellence\nEvery Detail Tells a Story', '#1e3d22', '#d4af37');
+            generateImage(3, 800, 1200, 'Timeless\nClassics', '#2c5530', '#d4af37');
+            generateImage(4, 800, 1200, 'Bold\nStatements', '#d4af37', '#2c5530');
+            generateImage(5, 800, 1200, 'Refined\nDetails', '#4a4a4a', '#d4af37');
+        }
+
+        function downloadAll() {
+            generateAll();
+            setTimeout(() => {
+                downloadImage(1, 'editorial-1.jpg');
+                setTimeout(() => downloadImage(2, 'editorial-2.jpg'), 200);
+                setTimeout(() => downloadImage(3, 'editorial-3.jpg'), 400);
+                setTimeout(() => downloadImage(4, 'editorial-4.jpg'), 600);
+                setTimeout(() => downloadImage(5, 'editorial-5.jpg'), 800);
+            }, 500);
+        }
+
+        // Auto-generate on page load
+        window.onload = generateAll;
+    </script>
+</body>
+</html>
