@@ -12,7 +12,9 @@
       "WebFetch(domain:app.houseofcb.com)",
       "Bash(find:*)",
       "Bash(curl:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(git commit:*)",
+      "Bash(git add:*)"
     ]
   }
 }

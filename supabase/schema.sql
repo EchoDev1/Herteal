@@ -147,6 +147,26 @@ CREATE TABLE IF NOT EXISTS public.shipping_addresses (
 );
 
 -- ================================================
+-- PAYMENTS & TRANSACTIONS
+-- ================================================
+
+-- Payment Transactions
+CREATE TABLE IF NOT EXISTS public.payment_transactions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    transaction_id TEXT UNIQUE NOT NULL,
+    order_id UUID NOT NULL REFERENCES public.orders(id) ON DELETE CASCADE,
+    reference TEXT UNIQUE NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    payment_method TEXT NOT NULL CHECK (payment_method IN ('paystack', 'flutterwave', 'opay', 'bank_transfer', 'card', 'cash')),
+    status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'completed', 'failed', 'refunded')),
+    gateway_response JSONB,
+    customer_name TEXT NOT NULL,
+    customer_email TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- ================================================
 -- CONTENT MANAGEMENT
 -- ================================================
 
@@ -232,6 +252,13 @@ CREATE INDEX idx_orders_created_at ON public.orders(created_at DESC);
 CREATE INDEX idx_order_items_order_id ON public.order_items(order_id);
 CREATE INDEX idx_order_items_product_id ON public.order_items(product_id);
 
+-- Payment Transactions
+CREATE INDEX idx_payment_transactions_transaction_id ON public.payment_transactions(transaction_id);
+CREATE INDEX idx_payment_transactions_order_id ON public.payment_transactions(order_id);
+CREATE INDEX idx_payment_transactions_status ON public.payment_transactions(status);
+CREATE INDEX idx_payment_transactions_payment_method ON public.payment_transactions(payment_method);
+CREATE INDEX idx_payment_transactions_created_at ON public.payment_transactions(created_at DESC);
+
 -- User Profiles
 CREATE INDEX idx_user_profiles_role ON public.user_profiles(role);
 CREATE INDEX idx_user_profiles_status ON public.user_profiles(status);
@@ -254,6 +281,7 @@ ALTER TABLE public.site_pages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.homepage_sections ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.testimonials ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.payment_transactions ENABLE ROW LEVEL SECURITY;
 
 -- Public read access for products and collections
 CREATE POLICY "Public can view active products" ON public.products
@@ -329,6 +357,14 @@ CREATE POLICY "Admins have full access to site_settings" ON public.site_settings
         )
     );
 
+CREATE POLICY "Admins have full access to payment_transactions" ON public.payment_transactions
+    FOR ALL USING (
+        EXISTS (
+            SELECT 1 FROM public.user_profiles
+            WHERE id = auth.uid() AND role = 'admin'
+        )
+    );
+
 -- User policies (customers can view their own orders)
 CREATE POLICY "Users can view their own orders" ON public.orders
     FOR SELECT USING (user_id = auth.uid());
@@ -375,6 +411,9 @@ CREATE TRIGGER update_testimonials_updated_at BEFORE UPDATE ON public.testimonia
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_site_settings_updated_at BEFORE UPDATE ON public.site_settings
+    FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+CREATE TRIGGER update_payment_transactions_updated_at BEFORE UPDATE ON public.payment_transactions
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- Function to generate order number
@@ -426,9 +465,10 @@ VALUES
     ('tax_rate', '8', 'general', 'Tax rate percentage'),
     ('shipping_fee', '15', 'shipping', 'Standard shipping fee'),
     ('free_shipping_threshold', '500', 'shipping', 'Free shipping threshold'),
-    ('paystack_enabled', 'true', 'payment', 'Paystack payment gateway'),
+    ('paystack_enabled', 'false', 'payment', 'Paystack payment gateway'),
     ('flutterwave_enabled', 'false', 'payment', 'Flutterwave payment gateway'),
-    ('bank_transfer_enabled', 'true', 'payment', 'Bank transfer option'),
+    ('opay_enabled', 'false', 'payment', 'Opay payment gateway'),
+    ('bank_transfer_enabled', 'false', 'payment', 'Bank transfer option'),
     ('order_confirmation_email', 'true', 'email', 'Order confirmation email'),
     ('order_shipped_email', 'true', 'email', 'Order shipped notification'),
     ('order_delivered_email', 'true', 'email', 'Order delivered notification'),

@@ -115,6 +115,7 @@ VALUES (
    - ✅ orders
    - ✅ order_items
    - ✅ shipping_addresses
+   - ✅ payment_transactions
    - ✅ site_pages
    - ✅ homepage_sections
    - ✅ testimonials
