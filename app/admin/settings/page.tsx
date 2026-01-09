@@ -675,7 +675,7 @@ export default function SettingsPage() {
                 <div>
                   <h3 className="font-medium text-blue-900 mb-1">Authentication</h3>
                   <p className="text-sm text-blue-700">
-                    Using demo authentication. Implement proper authentication (NextAuth.js, Auth0, etc.) for production.
+                    Authentication system requires Supabase configuration. Configure your credentials in .env.local to enable authentication.
                   </p>
                 </div>
               </div>

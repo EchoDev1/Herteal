@@ -2,14 +2,16 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Search, ShoppingBag, X, Heart, User } from 'lucide-react';
+import { Search, ShoppingBag, X, Heart, User, LogOut } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { items } = useCartStore();
+  const { user, profile, signOut } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -279,12 +281,30 @@ export default function Header() {
             >
               ON-SALE
             </Link>
-            <Link
-              href="/signin"
-              className="text-xs font-semibold uppercase tracking-widest text-white bg-[#7A916C] hover:bg-[#6B8159] px-4 py-2 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg font-[family-name:var(--font-montserrat)]"
-            >
-              SIGN-IN
-            </Link>
+            {user ? (
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/account"
+                  className="text-xs font-semibold uppercase tracking-widest text-[#2D2D2D] hover:text-[#7A916C] transition-colors font-[family-name:var(--font-montserrat)]"
+                >
+                  {profile?.full_name || 'Account'}
+                </Link>
+                <button
+                  onClick={signOut}
+                  className="text-xs font-semibold uppercase tracking-widest text-white bg-[#8B0000] hover:bg-[#6B0000] px-4 py-2 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg font-[family-name:var(--font-montserrat)] flex items-center gap-2"
+                >
+                  <LogOut className="w-3 h-3" />
+                  SIGN OUT
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/signin"
+                className="text-xs font-semibold uppercase tracking-widest text-white bg-[#7A916C] hover:bg-[#6B8159] px-4 py-2 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg font-[family-name:var(--font-montserrat)]"
+              >
+                SIGN-IN
+              </Link>
+            )}
           </nav>
         </div>
       </div>
@@ -368,6 +388,12 @@ export default function Header() {
 
             {/* Divider */}
             <div className="pt-3 mt-3 border-t border-white/20 space-y-1.5">
+              {user && (
+                <div className="px-4 py-2.5 mb-2">
+                  <p className="text-xs text-white/60 uppercase tracking-wide mb-1">Signed in as</p>
+                  <p className="text-sm font-medium text-white">{profile?.full_name || user.email}</p>
+                </div>
+              )}
               <Link
                 href="/wishlist"
                 className="block px-4 py-2.5 text-sm font-medium text-white/90 hover:bg-white/10 hover:text-white rounded-lg transition-colors"
@@ -391,6 +417,28 @@ export default function Header() {
               >
                 Customer Care & Complaints
               </Link>
+
+              {/* Auth Actions */}
+              {user ? (
+                <button
+                  onClick={() => {
+                    signOut();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full text-left px-4 py-2.5 text-sm font-medium text-white bg-[#8B0000] hover:bg-[#6B0000] rounded-lg transition-colors flex items-center gap-2"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sign Out
+                </button>
+              ) : (
+                <Link
+                  href="/signin"
+                  className="block px-4 py-2.5 text-sm font-medium text-white bg-[#7A916C] hover:bg-[#6B8159] rounded-lg transition-colors text-center"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Sign In
+                </Link>
+              )}
             </div>
           </nav>
         </div>

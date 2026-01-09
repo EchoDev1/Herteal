@@ -5,10 +5,6 @@ export default function PaymentForm() {
     <div className="space-y-4">
       <h2 className="text-2xl font-light mb-6">Payment Information</h2>
 
-      <div className="bg-warm-white p-6 text-sm text-soft-gray mb-6">
-        This is a demo checkout. No actual payment will be processed.
-      </div>
-
       <Input
         label="Card Number"
         type="text"

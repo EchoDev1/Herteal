@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { products } from '@/data/products';
 import ProductGrid from '@/components/product/ProductGrid';
 import CategoryFilter from '@/components/product/CategoryFilter';
 
-export default function ShopPage() {
+function ShopContent() {
   const [sortBy, setSortBy] = useState('featured');
   const searchParams = useSearchParams();
   const filter = searchParams.get('filter');
@@ -72,5 +72,19 @@ export default function ShopPage() {
         <ProductGrid products={filteredAndSortedProducts} />
       </div>
     </div>
+  );
+}
+
+export default function ShopPage() {
+  return (
+    <Suspense fallback={
+      <div className="py-16 md:py-24">
+        <div className="container mx-auto px-4 text-center">
+          <div className="animate-pulse">Loading...</div>
+        </div>
+      </div>
+    }>
+      <ShopContent />
+    </Suspense>
   );
 }

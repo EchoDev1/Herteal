@@ -1,9 +1,43 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { User, Package, Heart, Settings, LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function AccountPage() {
+  const router = useRouter();
+  const { user, profile, loading, signOut } = useAuth();
+
+  useEffect(() => {
+    // Redirect to signin if not authenticated
+    if (!loading && !user) {
+      router.push('/signin');
+    }
+  }, [user, loading, router]);
+
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#7A916C] mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if not authenticated
+  if (!user) {
+    return null;
+  }
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="container mx-auto px-4">
@@ -14,7 +48,7 @@ export default function AccountPage() {
               My Account
             </h1>
             <p className="text-gray-600 font-[family-name:var(--font-montserrat)]">
-              Manage your account and orders
+              Welcome back, {profile?.full_name || user.email}
             </p>
           </div>
 
@@ -94,6 +128,7 @@ export default function AccountPage() {
 
             {/* Sign Out */}
             <button
+              onClick={handleSignOut}
               className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow text-left"
             >
               <div className="flex items-center gap-4 mb-3">

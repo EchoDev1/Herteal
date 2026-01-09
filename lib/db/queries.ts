@@ -17,7 +17,7 @@ export async function getProducts(filters?: {
 }) {
   const supabase = getSupabase();
   if (!supabase) {
-    // Return empty array if Supabase not configured (demo mode)
+    // Return empty array if Supabase not configured
     return { data: [], error: null };
   }
 

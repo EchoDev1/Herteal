@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Shield, Lock, Mail, Eye, EyeOff } from 'lucide-react';
-import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const { signIn, isSupabaseEnabled, user, isAdmin, loading } = useAuth();
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
@@ -15,46 +16,36 @@ export default function AdminLoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Redirect if already logged in as admin
+  React.useEffect(() => {
+    if (!loading && user && isAdmin) {
+      router.replace('/admin/dashboard');
+    }
+  }, [user, isAdmin, loading, router]);
+
+  // Show loading while checking auth
+  if (loading || (user && isAdmin)) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#2C5530] via-[#3A6D40] to-[#2C5530] flex items-center justify-center">
+        <div className="text-white text-lg">Loading...</div>
+      </div>
+    );
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
     try {
-      if (isSupabaseConfigured()) {
-        // Use Supabase authentication
-        const { data, error: authError } = await supabase.auth.signInWithPassword({
-          email: credentials.email,
-          password: credentials.password,
-        });
+      const { error: authError } = await signIn(credentials.email, credentials.password);
 
-        if (authError) throw authError;
-
-        if (data.user) {
-          // Check if user is admin
-          const { data: profile, error: profileError } = await supabase
-            .from('user_profiles')
-            .select('role')
-            .eq('id', data.user.id)
-            .single();
-
-          if (profileError || profile?.role !== 'admin') {
-            await supabase.auth.signOut();
-            throw new Error('Unauthorized: Admin access only');
-          }
-
-          localStorage.setItem('adminAuth', 'true');
-          router.push('/admin/dashboard');
-        }
-      } else {
-        // Fallback to demo mode (only for development)
-        if (credentials.email === 'admin@herteals.com' && credentials.password === 'admin123') {
-          localStorage.setItem('adminAuth', 'true');
-          router.push('/admin/dashboard');
-        } else {
-          throw new Error('Invalid credentials');
-        }
+      if (authError) {
+        throw new Error(authError.message || 'Authentication failed');
       }
+
+      // Navigate to dashboard on successful login
+      router.replace('/admin/dashboard');
     } catch (err: any) {
       setError(err.message || 'Authentication failed');
       setIsLoading(false);
@@ -95,10 +86,10 @@ export default function AdminLoginPage() {
             </div>
           )}
 
-          {!isSupabaseConfigured() && (
-            <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-              <p className="text-xs text-amber-800">
-                <strong>Demo Mode:</strong> Supabase not configured. Using demo authentication.
+          {!isSupabaseEnabled && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+              <p className="text-xs text-red-800">
+                <strong>Configuration Required:</strong> Database not configured. Please configure your Supabase credentials in .env.local to enable authentication.
               </p>
             </div>
           )}

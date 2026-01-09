@@ -1,43 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import Link from 'next/link';
 import {
-  LayoutDashboard,
   Package,
   ShoppingCart,
   Users,
-  Settings,
+  TrendingUp,
+  Plus,
   CreditCard,
   FileText,
-  TrendingUp,
-  LogOut,
-  Plus,
+  Settings,
+  LayoutDashboard,
 } from 'lucide-react';
 
 export default function AdminDashboard() {
-  const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const auth = localStorage.getItem('adminAuth');
-    if (auth !== 'true') {
-      router.push('/admin');
-    } else {
-      setIsAuthenticated(true);
-    }
-  }, [router]);
-
-  const handleLogout = () => {
-    localStorage.removeItem('adminAuth');
-    router.push('/admin');
-  };
-
-  if (!isAuthenticated) {
-    return null;
-  }
-
   // Dashboard statistics - These will be dynamically populated when connected to the database
   // Currently showing 0 until the platform starts functioning
   const stats = [
@@ -70,13 +47,6 @@ export default function AdminDashboard() {
                 <span className="text-sm text-[#6B6B6B] ml-2">Admin</span>
               </h1>
             </div>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-            >
-              <LogOut className="w-4 h-4" />
-              Logout
-            </button>
           </div>
         </div>
       </header>
@@ -92,7 +62,7 @@ export default function AdminDashboard() {
             <p className="text-[#6B6B6B]">Complete access to manage your e-commerce platform</p>
           </div>
           <Link
-            href="/admin/products"
+            href="/admin/products?action=add"
             className="px-6 py-3 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors flex items-center gap-2 font-medium"
           >
             <Plus className="w-5 h-5" />

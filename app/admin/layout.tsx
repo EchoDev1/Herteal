@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   LayoutDashboard,
   Package,
@@ -20,17 +21,22 @@ import {
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { user, profile, loading, signOut, isAdmin } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
-    const adminAuth = localStorage.getItem('adminAuth');
-    if (!adminAuth && pathname !== '/admin') {
-      router.push('/admin');
-    } else if (adminAuth) {
-      setIsAuthenticated(true);
+    // Redirect if not authenticated or not admin
+    if (!loading) {
+      if (!user && pathname !== '/admin') {
+        router.push('/admin');
+      } else if (user && !isAdmin && pathname !== '/admin') {
+        // User is logged in but not admin
+        router.push('/admin');
+      }
     }
+  }, [user, isAdmin, loading, pathname, router]);
 
+  useEffect(() => {
     // Set initial sidebar state based on screen size
     const handleResize = () => {
       if (window.innerWidth >= 768) {
@@ -48,11 +54,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     // Cleanup
     return () => window.removeEventListener('resize', handleResize);
-  }, [pathname, router]);
+  }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('adminAuth');
-    router.push('/admin');
+  const handleLogout = async () => {
+    await signOut();
   };
 
   // Don't show sidebar on login page
@@ -60,19 +65,39 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return <>{children}</>;
   }
 
-  if (!isAuthenticated) {
-    return null;
+  // Show loading state while checking authentication
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#7A916C] border-t-transparent"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Redirect if not authenticated or not admin
+  if (!user || !isAdmin) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#7A916C] border-t-transparent"></div>
+          <p className="mt-4 text-gray-600">Redirecting...</p>
+        </div>
+      </div>
+    );
   }
 
   const navItems = [
     { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { href: '/admin/products', label: 'Products', icon: Package },
-    { href: '/admin/orders', label: 'Orders', icon: ShoppingCart },
-    { href: '/admin/users', label: 'Users', icon: Users },
-    { href: '/admin/pages', label: 'Pages', icon: FileText },
     { href: '/admin/collections', label: 'Collections', icon: Layers },
-    { href: '/admin/homepage', label: 'Homepage', icon: Home },
+    { href: '/admin/homepage', label: 'Homepage Sections', icon: Home },
+    { href: '/admin/orders', label: 'Orders', icon: ShoppingCart },
+    { href: '/admin/pages', label: 'Pages', icon: FileText },
+    { href: '/admin/products', label: 'Products', icon: Package },
     { href: '/admin/settings', label: 'Settings', icon: Settings },
+    { href: '/admin/users', label: 'Users', icon: Users },
   ];
 
   return (

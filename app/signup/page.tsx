@@ -2,20 +2,24 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ArrowLeft, CheckCircle } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function SignUpPage() {
+  const router = useRouter();
+  const { signUp, isSupabaseEnabled } = useAuth();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
-    phone: '',
     agreeToTerms: false,
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -23,74 +27,133 @@ export default function SignUpPage() {
       ...formData,
       [name]: type === 'checkbox' ? checked : value,
     });
-    // Clear error for this field
-    if (errors[name]) {
-      setErrors({ ...errors, [name]: '' });
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors: { [key: string]: string } = {};
-
-    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
-    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    if (!formData.password) newErrors.password = 'Password is required';
-    if (formData.password.length < 8) newErrors.password = 'Password must be at least 8 characters';
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
-    if (!formData.agreeToTerms) newErrors.agreeToTerms = 'You must agree to the terms';
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    setError('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
 
-    if (!validateForm()) return;
+    // Validation
+    if (!formData.firstName.trim() || !formData.lastName.trim()) {
+      setError('Please enter your full name');
+      return;
+    }
+
+    if (!formData.email.trim()) {
+      setError('Email is required');
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    if (!formData.agreeToTerms) {
+      setError('You must agree to the terms and conditions');
+      return;
+    }
 
     setIsLoading(true);
 
-    // Add your sign-up logic here
-    setTimeout(() => {
+    try {
+      const fullName = `${formData.firstName} ${formData.lastName}`;
+      const { error: signUpError } = await signUp(formData.email, formData.password, fullName);
+
+      if (signUpError) {
+        throw new Error(signUpError.message);
+      }
+
+      setSuccess(true);
+
+      // Give time to read email verification message
+      setTimeout(() => {
+        router.push('/signin');
+      }, 3000);
+    } catch (err: any) {
+      setError(err.message || 'Failed to create account');
       setIsLoading(false);
-      alert('Account created successfully! Redirecting to sign in...');
-      // Redirect to sign-in page
-      window.location.href = '/signin';
-    }, 1500);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0] py-12 px-4">
-      <div className="container mx-auto max-w-2xl">
-        {/* Back Button */}
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-[#7A916C] hover:text-[#6B8159] mb-8 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span className="text-sm font-medium">Back to Home</span>
-        </Link>
+    <div className="min-h-screen h-screen relative overflow-hidden flex items-stretch">
+      {/* Luxury Background with gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#FAF7F0] via-[#F5F0E8] to-[#EDE7DC]"></div>
 
-        {/* Sign Up Card */}
-        <div className="bg-white rounded-lg shadow-lg p-8 border border-[#7A916C]/20">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-[family-name:var(--font-playfair)] font-bold mb-2">
-              <span className="text-white bg-[#7A916C] px-2">HER</span>
-              <span className="text-[#7A916C]">TEALS</span>
-            </h1>
-            <p className="text-sm text-[#6B6B6B] mt-4">Create your account and start shopping</p>
-          </div>
+      {/* Decorative elements */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-[#7A916C]/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#7A916C]/10 rounded-full blur-3xl"></div>
+
+      <div className="relative z-10 w-full flex items-center justify-center p-4 md:p-8">
+        <div className="w-full max-w-2xl">
+          {/* Back Button */}
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-[#7A916C] hover:text-[#6B8159] mb-4 transition-colors group"
+          >
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            <span className="text-sm font-medium font-[family-name:var(--font-montserrat)] uppercase tracking-wider">Back to Home</span>
+          </Link>
+
+          {/* Sign Up Card with luxury styling */}
+          <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 md:p-12 border border-[#7A916C]/10 relative overflow-hidden">
+            {/* Decorative corner elements */}
+            <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-[#7A916C]/10 to-transparent rounded-br-full"></div>
+            <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-[#7A916C]/10 to-transparent rounded-tl-full"></div>
+
+            {/* Header */}
+            <div className="text-center mb-8 relative">
+              {/* Logo */}
+              <div className="inline-block mb-4">
+                <h1 className="text-4xl md:text-5xl font-[family-name:var(--font-playfair)] font-bold">
+                  <span className="text-white bg-[#7A916C] px-3 py-2 inline-block shadow-lg">HER</span>
+                  <span className="text-[#7A916C]">TEALS</span>
+                </h1>
+              </div>
+
+              <h2 className="text-2xl md:text-3xl font-[family-name:var(--font-playfair)] font-semibold text-[#2D2D2D] mb-2">
+                Join Our Exclusive Community
+              </h2>
+              <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-montserrat)]">
+                Create your account and discover luxury tailored fashion
+              </p>
+            </div>
+
+          {/* Success Message */}
+          {success && (
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3">
+              <CheckCircle className="w-5 h-5 flex-shrink-0 text-green-600" />
+              <div>
+                <p className="text-sm font-medium text-green-900">
+                  Account created successfully!
+                </p>
+                <p className="text-sm text-green-700">
+                  Please check your email to verify your account. Redirecting...
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Error Message */}
+          {error && !success && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-800">{error}</p>
+            </div>
+          )}
 
           {/* Sign Up Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5 relative">
             {/* Name Fields */}
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="firstName" className="block text-sm font-medium text-[#2D2D2D] mb-2">
+            <div className="grid md:grid-cols-2 gap-5">
+              <div className="group">
+                <label htmlFor="firstName" className="block text-sm font-semibold uppercase tracking-wider text-[#2D2D2D] mb-2 font-[family-name:var(--font-montserrat)]">
                   First Name *
                 </label>
                 <input
@@ -99,15 +162,13 @@ export default function SignUpPage() {
                   name="firstName"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border ${
-                    errors.firstName ? 'border-red-500' : 'border-[#7A916C]/30'
-                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] focus:border-transparent transition-all`}
+                  disabled={isLoading || success}
+                  className="w-full px-4 py-3 border-2 border-[#7A916C]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] focus:border-[#7A916C] transition-all bg-white/50 backdrop-blur-sm font-[family-name:var(--font-montserrat)] text-[#2D2D2D] placeholder-[#6B6B6B]/50 disabled:bg-gray-100"
                   placeholder="John"
                 />
-                {errors.firstName && <p className="mt-1 text-xs text-red-500">{errors.firstName}</p>}
               </div>
-              <div>
-                <label htmlFor="lastName" className="block text-sm font-medium text-[#2D2D2D] mb-2">
+              <div className="group">
+                <label htmlFor="lastName" className="block text-sm font-semibold uppercase tracking-wider text-[#2D2D2D] mb-2 font-[family-name:var(--font-montserrat)]">
                   Last Name *
                 </label>
                 <input
@@ -116,18 +177,16 @@ export default function SignUpPage() {
                   name="lastName"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border ${
-                    errors.lastName ? 'border-red-500' : 'border-[#7A916C]/30'
-                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] focus:border-transparent transition-all`}
+                  disabled={isLoading || success}
+                  className="w-full px-4 py-3 border-2 border-[#7A916C]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] focus:border-[#7A916C] transition-all bg-white/50 backdrop-blur-sm font-[family-name:var(--font-montserrat)] text-[#2D2D2D] placeholder-[#6B6B6B]/50 disabled:bg-gray-100"
                   placeholder="Doe"
                 />
-                {errors.lastName && <p className="mt-1 text-xs text-red-500">{errors.lastName}</p>}
               </div>
             </div>
 
             {/* Email */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-[#2D2D2D] mb-2">
+            <div className="group">
+              <label htmlFor="email" className="block text-sm font-semibold uppercase tracking-wider text-[#2D2D2D] mb-2 font-[family-name:var(--font-montserrat)]">
                 Email Address *
               </label>
               <input
@@ -136,33 +195,15 @@ export default function SignUpPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border ${
-                  errors.email ? 'border-red-500' : 'border-[#7A916C]/30'
-                } rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] focus:border-transparent transition-all`}
-                placeholder="your.email@example.com"
-              />
-              {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
-            </div>
-
-            {/* Phone */}
-            <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-[#2D2D2D] mb-2">
-                Phone Number (Optional)
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-[#7A916C]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] focus:border-transparent transition-all"
-                placeholder="+234 800 000 0000"
+                disabled={isLoading || success}
+                className="w-full px-4 py-3 border-2 border-[#7A916C]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] focus:border-[#7A916C] transition-all bg-white/50 backdrop-blur-sm font-[family-name:var(--font-montserrat)] text-[#2D2D2D] placeholder-[#6B6B6B]/50 disabled:bg-gray-100"
+                placeholder="john.doe@example.com"
               />
             </div>
 
             {/* Password */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-[#2D2D2D] mb-2">
+            <div className="group">
+              <label htmlFor="password" className="block text-sm font-semibold uppercase tracking-wider text-[#2D2D2D] mb-2 font-[family-name:var(--font-montserrat)]">
                 Password *
               </label>
               <input
@@ -171,17 +212,15 @@ export default function SignUpPage() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border ${
-                  errors.password ? 'border-red-500' : 'border-[#7A916C]/30'
-                } rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] focus:border-transparent transition-all`}
-                placeholder="At least 8 characters"
+                disabled={isLoading || success}
+                className="w-full px-4 py-3 border-2 border-[#7A916C]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] focus:border-[#7A916C] transition-all bg-white/50 backdrop-blur-sm font-[family-name:var(--font-montserrat)] text-[#2D2D2D] placeholder-[#6B6B6B]/50 disabled:bg-gray-100"
+                placeholder="At least 6 characters"
               />
-              {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}
             </div>
 
             {/* Confirm Password */}
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-[#2D2D2D] mb-2">
+            <div className="group">
+              <label htmlFor="confirmPassword" className="block text-sm font-semibold uppercase tracking-wider text-[#2D2D2D] mb-2 font-[family-name:var(--font-montserrat)]">
                 Confirm Password *
               </label>
               <input
@@ -190,90 +229,77 @@ export default function SignUpPage() {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border ${
-                  errors.confirmPassword ? 'border-red-500' : 'border-[#7A916C]/30'
-                } rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] focus:border-transparent transition-all`}
-                placeholder="Re-enter your password"
+                disabled={isLoading || success}
+                className="w-full px-4 py-3 border-2 border-[#7A916C]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] focus:border-[#7A916C] transition-all bg-white/50 backdrop-blur-sm font-[family-name:var(--font-montserrat)] text-[#2D2D2D] placeholder-[#6B6B6B]/50 disabled:bg-gray-100"
+                placeholder="Re-enter password"
               />
-              {errors.confirmPassword && <p className="mt-1 text-xs text-red-500">{errors.confirmPassword}</p>}
             </div>
 
             {/* Terms and Conditions */}
-            <div>
-              <div className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  id="agreeToTerms"
-                  name="agreeToTerms"
-                  checked={formData.agreeToTerms}
-                  onChange={handleChange}
-                  className="mt-1 w-4 h-4 text-[#7A916C] border-[#7A916C]/30 rounded focus:ring-[#7A916C]"
-                />
-                <label htmlFor="agreeToTerms" className="text-sm text-[#6B6B6B]">
-                  I agree to the{' '}
-                  <Link href="/terms" className="text-[#7A916C] hover:text-[#6B8159] font-medium">
-                    Terms and Conditions
-                  </Link>{' '}
-                  and{' '}
-                  <Link href="/privacy" className="text-[#7A916C] hover:text-[#6B8159] font-medium">
-                    Privacy Policy
-                  </Link>
-                </label>
-              </div>
-              {errors.agreeToTerms && <p className="mt-1 text-xs text-red-500">{errors.agreeToTerms}</p>}
+            <div className="flex items-start gap-3 bg-[#7A916C]/5 p-4 rounded-lg">
+              <input
+                type="checkbox"
+                id="agreeToTerms"
+                name="agreeToTerms"
+                checked={formData.agreeToTerms}
+                onChange={handleChange}
+                disabled={isLoading || success}
+                className="mt-1 w-5 h-5 text-[#7A916C] border-[#7A916C]/30 rounded focus:ring-[#7A916C] disabled:bg-gray-100"
+              />
+              <label htmlFor="agreeToTerms" className="text-sm text-[#2D2D2D] font-[family-name:var(--font-montserrat)]">
+                I agree to the{' '}
+                <Link href="/terms" className="text-[#7A916C] hover:text-[#6B8159] font-semibold underline">
+                  Terms & Conditions
+                </Link>{' '}
+                and{' '}
+                <Link href="/privacy" className="text-[#7A916C] hover:text-[#6B8159] font-semibold underline">
+                  Privacy Policy
+                </Link>
+              </label>
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={isLoading}
-              className="w-full py-3 px-6 bg-[#7A916C] text-white font-semibold rounded-lg hover:bg-[#6B8159] transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isLoading || success}
+              className="w-full py-4 px-8 bg-gradient-to-r from-[#7A916C] to-[#6B8159] text-white font-bold rounded-lg hover:from-[#6B8159] hover:to-[#5C7049] transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider font-[family-name:var(--font-montserrat)] relative overflow-hidden group"
             >
-              {isLoading ? 'Creating Account...' : 'Create Account'}
+              <span className="relative z-10">
+                {isLoading ? 'Creating Account...' : success ? 'Account Created!' : 'Create Account'}
+              </span>
+              <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
             </button>
           </form>
 
           {/* Sign In Link */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-[#6B6B6B]">
-              Already have an account?{' '}
-              <Link href="/signin" className="text-[#7A916C] hover:text-[#6B8159] font-semibold transition-colors">
-                Sign in
+          <div className="mt-8 text-center relative">
+            {/* Decorative divider */}
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#7A916C]/20"></div>
+              <span className="text-sm text-[#6B6B6B] font-[family-name:var(--font-montserrat)] uppercase tracking-widest">Existing Customer</span>
+              <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#7A916C]/20"></div>
+            </div>
+
+            <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-montserrat)] mb-3">
+              Already have an account?
+            </p>
+            <Link
+              href="/signin"
+              className="inline-block py-3 px-8 border-2 border-[#7A916C] text-[#7A916C] hover:bg-[#7A916C] hover:text-white font-bold rounded-lg transition-all duration-300 uppercase tracking-wider font-[family-name:var(--font-montserrat)] text-sm"
+            >
+              Sign In
+            </Link>
+          </div>
+          </div>
+
+          {/* Customer Support */}
+          <div className="mt-4 text-center">
+            <p className="text-sm text-[#6B6B6B] font-[family-name:var(--font-montserrat)]">
+              Need help?{' '}
+              <Link href="/complaints" className="text-[#7A916C] hover:text-[#6B8159] font-semibold transition-colors underline">
+                Contact Support
               </Link>
             </p>
-          </div>
-
-          {/* Divider */}
-          <div className="mt-8 mb-6 flex items-center">
-            <div className="flex-1 h-px bg-[#7A916C]/20"></div>
-            <span className="px-4 text-xs text-[#6B6B6B] uppercase">Or sign up with</span>
-            <div className="flex-1 h-px bg-[#7A916C]/20"></div>
-          </div>
-
-          {/* Social Sign Up */}
-          <div className="grid grid-cols-2 gap-4">
-            <button className="flex items-center justify-center gap-2 py-2 px-4 border border-[#7A916C]/30 rounded-lg hover:bg-[#FAF7F0] transition-colors">
-              <span className="text-sm font-medium text-[#2D2D2D]">Google</span>
-            </button>
-            <button className="flex items-center justify-center gap-2 py-2 px-4 border border-[#7A916C]/30 rounded-lg hover:bg-[#FAF7F0] transition-colors">
-              <span className="text-sm font-medium text-[#2D2D2D]">Facebook</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Benefits */}
-        <div className="mt-8 grid md:grid-cols-3 gap-4 text-center">
-          <div className="bg-white p-4 rounded-lg border border-[#7A916C]/20">
-            <h3 className="font-semibold text-[#7A916C] mb-2">Fast Checkout</h3>
-            <p className="text-xs text-[#6B6B6B]">Save your details for quick purchases</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg border border-[#7A916C]/20">
-            <h3 className="font-semibold text-[#7A916C] mb-2">Track Orders</h3>
-            <p className="text-xs text-[#6B6B6B]">Monitor your orders in real-time</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg border border-[#7A916C]/20">
-            <h3 className="font-semibold text-[#7A916C] mb-2">Exclusive Offers</h3>
-            <p className="text-xs text-[#6B6B6B]">Get special discounts and early access</p>
           </div>
         </div>
       </div>

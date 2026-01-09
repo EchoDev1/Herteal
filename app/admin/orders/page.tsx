@@ -15,48 +15,7 @@ interface Order {
 }
 
 export default function OrdersManagementPage() {
-  const [orders, setOrders] = useState<Order[]>([
-    {
-      id: 'ORD-001',
-      customerName: 'Sarah Johnson',
-      email: 'sarah@example.com',
-      items: 3,
-      total: 125000,
-      status: 'delivered',
-      date: '2026-01-02',
-      shippingAddress: '123 Main St, Lagos, Nigeria',
-    },
-    {
-      id: 'ORD-002',
-      customerName: 'Amara Okafor',
-      email: 'amara@example.com',
-      items: 1,
-      total: 45000,
-      status: 'shipped',
-      date: '2026-01-03',
-      shippingAddress: '456 Park Ave, Abuja, Nigeria',
-    },
-    {
-      id: 'ORD-003',
-      customerName: 'Chioma Eze',
-      email: 'chioma@example.com',
-      items: 2,
-      total: 90000,
-      status: 'confirmed',
-      date: '2026-01-04',
-      shippingAddress: '789 Queen St, Port Harcourt, Nigeria',
-    },
-    {
-      id: 'ORD-004',
-      customerName: 'Ada Nwosu',
-      email: 'ada@example.com',
-      items: 4,
-      total: 180000,
-      status: 'pending',
-      date: '2026-01-05',
-      shippingAddress: '321 King Rd, Ibadan, Nigeria',
-    },
-  ]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');

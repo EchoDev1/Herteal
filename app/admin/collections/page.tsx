@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus, Edit, Trash2, Save, X, Image as ImageIcon } from 'lucide-react';
+import Link from 'next/link';
+import { Plus, Edit, Trash2, Save, X, Image as ImageIcon, Package } from 'lucide-react';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 interface Collection {
   id: string;
@@ -22,7 +24,7 @@ export default function CollectionsManagementPage() {
       slug: 'dresses',
       description: 'Elegant dresses for every occasion',
       image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8',
-      productCount: 5,
+      productCount: 0,
       featured: true,
       order: 1,
     },
@@ -32,7 +34,7 @@ export default function CollectionsManagementPage() {
       slug: 'suits',
       description: 'Tailored suits for the modern woman',
       image: 'https://images.unsplash.com/photo-1594938291221-94f18cbb5660',
-      productCount: 5,
+      productCount: 0,
       featured: true,
       order: 2,
     },
@@ -42,7 +44,7 @@ export default function CollectionsManagementPage() {
       slug: 'blouses',
       description: 'Sophisticated blouses and tops',
       image: 'https://images.unsplash.com/photo-1618932260643-eee4a2f652a6',
-      productCount: 5,
+      productCount: 0,
       featured: true,
       order: 3,
     },
@@ -173,20 +175,29 @@ export default function CollectionsManagementPage() {
               </div>
 
               {/* Actions */}
-              <div className="flex gap-2">
-                <button
-                  onClick={() => handleEdit(collection)}
-                  className="flex-1 px-3 py-2 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors flex items-center justify-center gap-2 text-sm"
+              <div className="flex flex-col gap-2">
+                <Link
+                  href={`/admin/products?collection=${collection.slug}`}
+                  className="w-full px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 text-sm"
                 >
-                  <Edit className="w-4 h-4" />
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(collection.id)}
-                  className="px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors flex items-center justify-center gap-2 text-sm"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                  <Package className="w-4 h-4" />
+                  Manage Products
+                </Link>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleEdit(collection)}
+                    className="flex-1 px-3 py-2 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors flex items-center justify-center gap-2 text-sm"
+                  >
+                    <Edit className="w-4 h-4" />
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(collection.id)}
+                    className="px-3 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors flex items-center justify-center gap-2 text-sm"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -253,23 +264,11 @@ export default function CollectionsManagementPage() {
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Image URL
-                </label>
-                <input
-                  type="text"
-                  value={formData.image || ''}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
-                  placeholder="https://..."
-                />
-                {formData.image && (
-                  <div className="mt-2 h-32 rounded-lg overflow-hidden border border-gray-300">
-                    <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
-                  </div>
-                )}
-              </div>
+              <ImageUpload
+                label="Collection Image"
+                value={formData.image || ''}
+                onChange={(url) => setFormData({ ...formData, image: url })}
+              />
 
               <div className="grid grid-cols-2 gap-4">
                 <div>

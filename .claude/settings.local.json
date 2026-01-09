@@ -14,7 +14,9 @@
       "Bash(curl:*)",
       "Bash(cat:*)",
       "Bash(git commit:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(ls:*)",
+      "Bash(node scripts/check-supabase.js:*)"
     ]
   }
 }

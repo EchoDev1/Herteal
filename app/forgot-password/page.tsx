@@ -3,21 +3,33 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Mail } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function ForgotPasswordPage() {
+  const { resetPassword, isSupabaseEnabled } = useAuth();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const { error: resetError } = await resetPassword(email);
+
+      if (resetError) {
+        throw new Error(resetError.message);
+      }
+
       setEmailSent(true);
-    }, 1500);
+    } catch (err: any) {
+      setError(err.message || 'Failed to send reset email');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -48,6 +60,13 @@ export default function ForgotPasswordPage() {
                 : "Enter your email and we'll send you a reset link"}
             </p>
           </div>
+
+          {/* Error Message */}
+          {error && !emailSent && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-800">{error}</p>
+            </div>
+          )}
 
           {emailSent ? (
             <div>

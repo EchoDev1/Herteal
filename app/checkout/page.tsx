@@ -88,7 +88,7 @@ export default function CheckoutPage() {
         status: 'confirmed' as const,
       };
 
-      // Store order in localStorage (for demo)
+      // Store order in localStorage
       localStorage.setItem('lastOrder', JSON.stringify(order));
 
       // Clear cart

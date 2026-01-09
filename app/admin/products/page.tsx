@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Plus, Edit, Trash2, Search, Package } from 'lucide-react';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 interface Product {
   id: number;
@@ -16,8 +17,9 @@ interface Product {
 }
 
 export default function AdminProductsPage() {
-  const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const searchParams = useSearchParams();
+  const collectionFilter = searchParams?.get('collection');
+
   const [products, setProducts] = useState<Product[]>([
     {
       id: 1,
@@ -46,19 +48,36 @@ export default function AdminProductsPage() {
       image: '/placeholder.jpg',
       status: 'active',
     },
+    {
+      id: 4,
+      name: 'Classic Suit',
+      price: 65000,
+      category: 'Suits',
+      stock: 20,
+      image: '/placeholder.jpg',
+      status: 'active',
+    },
+    {
+      id: 5,
+      name: 'Silk Blouse',
+      price: 28000,
+      category: 'Blouses',
+      stock: 35,
+      image: '/placeholder.jpg',
+      status: 'active',
+    },
   ]);
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
+  // Check if we should open the add modal from URL parameter
   useEffect(() => {
-    const auth = localStorage.getItem('adminAuth');
-    if (auth !== 'true') {
-      router.push('/admin');
-    } else {
-      setIsAuthenticated(true);
+    if (searchParams?.get('action') === 'add') {
+      setShowAddModal(true);
+      setEditingProduct(null);
     }
-  }, [router]);
+  }, [searchParams]);
 
   const handleDelete = (id: number) => {
     if (confirm('Are you sure you want to delete this product?')) {
@@ -68,7 +87,20 @@ export default function AdminProductsPage() {
 
   const handleAdd = () => {
     setShowAddModal(true);
-    setEditingProduct(null);
+    // Pre-select category if filtering by collection
+    if (collectionFilter) {
+      setEditingProduct({
+        id: 0,
+        name: '',
+        price: 0,
+        category: collectionFilter.charAt(0).toUpperCase() + collectionFilter.slice(1),
+        stock: 0,
+        image: '',
+        status: 'active',
+      });
+    } else {
+      setEditingProduct(null);
+    }
   };
 
   const handleEdit = (product: Product) => {
@@ -86,124 +118,114 @@ export default function AdminProductsPage() {
     setEditingProduct(null);
   };
 
-  const filteredProducts = products.filter((p) =>
-    p.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  if (!isAuthenticated) {
-    return null;
-  }
+  const filteredProducts = products.filter((p) => {
+    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCollection = collectionFilter
+      ? p.category.toLowerCase() === collectionFilter.toLowerCase()
+      : true;
+    return matchesSearch && matchesCollection;
+  });
 
   return (
-    <div className="min-h-screen bg-[#FAF7F0]">
+    <div className="space-y-6">
       {/* Header */}
-      <header className="bg-white border-b border-[#7A916C]/20">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Link
-                href="/admin/dashboard"
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <ArrowLeft className="w-5 h-5 text-[#6B6B6B]" />
-              </Link>
-              <Package className="w-6 h-6 text-[#7A916C]" />
-              <h1 className="text-xl font-semibold text-[#2D2D2D]">Product Management</h1>
-            </div>
-            <button
-              onClick={handleAdd}
-              className="flex items-center gap-2 px-4 py-2 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors"
-            >
-              <Plus className="w-4 h-4" />
-              Add Product
-            </button>
-          </div>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-[family-name:var(--font-playfair)] font-bold text-[#2C5530]">
+            {collectionFilter ? `Products - ${collectionFilter.charAt(0).toUpperCase() + collectionFilter.slice(1)}` : 'Products'}
+          </h1>
+          <p className="text-gray-600 mt-1">
+            {collectionFilter
+              ? `Managing products in the ${collectionFilter} collection`
+              : 'Manage your product inventory'}
+          </p>
         </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+        <button
+          onClick={handleAdd}
+          className="flex items-center gap-2 px-4 py-2 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors"
+        >
+          <Plus className="w-5 h-5" />
+          Add Product
+        </button>
+      </div>
         {/* Search Bar */}
-        <div className="mb-6">
-          <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#6B6B6B]" />
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search products..."
-              className="w-full pl-10 pr-4 py-2 border border-[#7A916C]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C]"
-            />
-          </div>
-        </div>
+      <div className="relative max-w-md">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search products..."
+          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+        />
+      </div>
 
-        {/* Products Table */}
-        <div className="bg-white rounded-lg shadow-md border border-[#7A916C]/20 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-[#7A916C] text-white">
-                <tr>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">ID</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">Price</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">Category</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">Stock</th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold">Status</th>
-                  <th className="px-6 py-3 text-right text-sm font-semibold">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#F0F0F0]">
-                {filteredProducts.map((product) => (
-                  <tr key={product.id} className="hover:bg-[#FAF7F0] transition-colors">
-                    <td className="px-6 py-4 text-sm text-[#2D2D2D]">{product.id}</td>
-                    <td className="px-6 py-4 text-sm font-medium text-[#2D2D2D]">{product.name}</td>
-                    <td className="px-6 py-4 text-sm text-[#2D2D2D]">₦{product.price.toLocaleString()}</td>
-                    <td className="px-6 py-4 text-sm text-[#2D2D2D]">{product.category}</td>
-                    <td className="px-6 py-4 text-sm text-[#2D2D2D]">{product.stock}</td>
-                    <td className="px-6 py-4">
-                      <span
-                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                          product.status === 'active'
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-gray-100 text-gray-800'
-                        }`}
+      {/* Products Table */}
+      <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-[#7A916C] text-white">
+              <tr>
+                <th className="px-6 py-3 text-left text-sm font-semibold">ID</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">Price</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">Category</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">Stock</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">Status</th>
+                <th className="px-6 py-3 text-right text-sm font-semibold">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {filteredProducts.map((product) => (
+                <tr key={product.id} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-6 py-4 text-sm text-gray-900">{product.id}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{product.name}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900">₦{product.price.toLocaleString()}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900">{product.category}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900">{product.stock}</td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                        product.status === 'active'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-gray-100 text-gray-800'
+                      }`}
+                    >
+                      {product.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <button
+                        onClick={() => handleEdit(product)}
+                        className="p-2 text-[#7A916C] hover:bg-[#7A916C]/10 rounded-lg transition-colors"
                       >
-                        {product.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <button
-                          onClick={() => handleEdit(product)}
-                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                        >
-                          <Edit className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => handleDelete(product.id)}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                        <Edit className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(product.id)}
+                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
+      </div>
 
-        {filteredProducts.length === 0 && (
-          <div className="text-center py-12 text-[#6B6B6B]">
-            No products found. {searchTerm && 'Try a different search term or '}
-            <button onClick={handleAdd} className="text-[#7A916C] font-medium hover:underline">
-              add a new product
-            </button>
-            .
-          </div>
-        )}
-      </main>
+      {filteredProducts.length === 0 && (
+        <div className="text-center py-12 text-gray-600">
+          No products found. {searchTerm && 'Try a different search term or '}
+          <button onClick={handleAdd} className="text-[#7A916C] font-medium hover:underline">
+            add a new product
+          </button>
+          .
+        </div>
+      )}
 
       {/* Add/Edit Modal */}
       {showAddModal && (
@@ -214,6 +236,7 @@ export default function AdminProductsPage() {
             setShowAddModal(false);
             setEditingProduct(null);
           }}
+          defaultCategory={collectionFilter ? collectionFilter.charAt(0).toUpperCase() + collectionFilter.slice(1) : undefined}
         />
       )}
     </div>
@@ -225,17 +248,19 @@ function ProductModal({
   product,
   onSave,
   onClose,
+  defaultCategory,
 }: {
   product: Product | null;
   onSave: (product: Product) => void;
   onClose: () => void;
+  defaultCategory?: string;
 }) {
   const [formData, setFormData] = useState<Product>(
     product || {
       id: 0,
       name: '',
       price: 0,
-      category: '',
+      category: defaultCategory || '',
       stock: 0,
       image: '',
       status: 'active',
@@ -298,10 +323,14 @@ function ProductModal({
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 required
-                className="w-full px-4 py-2 border border-[#7A916C]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C]"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
               >
                 <option value="">Select category</option>
                 <option value="Dresses">Dresses</option>
+                <option value="Suits">Suits</option>
+                <option value="Blouses">Blouses</option>
+                <option value="Ready To Wear Collection">Ready To Wear Collection</option>
+                <option value="The Art Of Herteals">The Art Of Herteals</option>
                 <option value="Traditional">Traditional</option>
                 <option value="Modern">Modern</option>
                 <option value="Accessories">Accessories</option>
@@ -320,15 +349,11 @@ function ProductModal({
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-[#2D2D2D] mb-2">Image URL</label>
-            <input
-              type="text"
-              value={formData.image}
-              onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-              className="w-full px-4 py-2 border border-[#7A916C]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C]"
-            />
-          </div>
+          <ImageUpload
+            label="Product Image"
+            value={formData.image}
+            onChange={(url) => setFormData({ ...formData, image: url })}
+          />
 
           <div className="flex gap-3 pt-4">
             <button
