@@ -23,7 +23,7 @@ export default function EditorialSection() {
           {/* Left: Image */}
           <div className="relative h-[500px] md:h-[600px]">
             <Image
-              src="/images/editorial-1.jpg"
+              src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=800&q=80"
               alt="Featured African Luxury Fashion"
               fill
               className="object-cover"
@@ -72,7 +72,7 @@ export default function EditorialSection() {
           {/* Timeless Classics */}
           <div className="group relative h-80 overflow-hidden">
             <Image
-              src="/images/editorial-3.jpg"
+              src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80"
               alt="Timeless Classics"
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -94,7 +94,7 @@ export default function EditorialSection() {
           {/* Bold Statements */}
           <div className="group relative h-80 overflow-hidden">
             <Image
-              src="/images/editorial-4.jpg"
+              src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&q=80"
               alt="Bold Statements"
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -116,7 +116,7 @@ export default function EditorialSection() {
           {/* Refined Details */}
           <div className="group relative h-80 overflow-hidden">
             <Image
-              src="/images/editorial-5.jpg"
+              src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80"
               alt="Refined Details"
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"

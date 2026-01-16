@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Plus, Edit, Trash2, Search, Package } from 'lucide-react';
 import ImageUpload from '@/components/admin/ImageUpload';
+import VideoUpload from '@/components/admin/VideoUpload';
 
 interface Product {
   id: number;
@@ -13,6 +14,7 @@ interface Product {
   category: string;
   stock: number;
   image: string;
+  video?: string;
   status: 'active' | 'inactive';
 }
 
@@ -349,11 +351,19 @@ function ProductModal({
             </div>
           </div>
 
-          <ImageUpload
-            label="Product Image"
-            value={formData.image}
-            onChange={(url) => setFormData({ ...formData, image: url })}
-          />
+          {/* Image and Video Upload - Side by Side */}
+          <div className="grid md:grid-cols-2 gap-4">
+            <ImageUpload
+              label="Product Image"
+              value={formData.image}
+              onChange={(url) => setFormData({ ...formData, image: url })}
+            />
+            <VideoUpload
+              label="Product Video"
+              value={formData.video || ''}
+              onChange={(url) => setFormData({ ...formData, video: url })}
+            />
+          </div>
 
           <div className="flex gap-3 pt-4">
             <button

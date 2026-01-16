@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Plus, Edit, Trash2, Save, X, Image as ImageIcon, Package } from 'lucide-react';
 import ImageUpload from '@/components/admin/ImageUpload';
+import VideoUpload from '@/components/admin/VideoUpload';
 
 interface Collection {
   id: string;
@@ -11,6 +12,7 @@ interface Collection {
   slug: string;
   description: string;
   image: string;
+  video?: string;
   productCount: number;
   featured: boolean;
   order: number;
@@ -57,6 +59,7 @@ export default function CollectionsManagementPage() {
     slug: '',
     description: '',
     image: '',
+    video: '',
     featured: false,
     order: collections.length + 1,
   });
@@ -68,6 +71,7 @@ export default function CollectionsManagementPage() {
       slug: '',
       description: '',
       image: '',
+      video: '',
       featured: false,
       order: collections.length + 1,
     });
@@ -105,6 +109,7 @@ export default function CollectionsManagementPage() {
         slug: formData.slug!,
         description: formData.description || '',
         image: formData.image || '',
+        video: formData.video || '',
         productCount: 0,
         featured: formData.featured || false,
         order: formData.order || collections.length + 1,
@@ -264,11 +269,19 @@ export default function CollectionsManagementPage() {
                 />
               </div>
 
-              <ImageUpload
-                label="Collection Image"
-                value={formData.image || ''}
-                onChange={(url) => setFormData({ ...formData, image: url })}
-              />
+              {/* Image and Video Upload - Side by Side */}
+              <div className="grid grid-cols-2 gap-4">
+                <ImageUpload
+                  label="Collection Image"
+                  value={formData.image || ''}
+                  onChange={(url) => setFormData({ ...formData, image: url })}
+                />
+                <VideoUpload
+                  label="Collection Video"
+                  value={formData.video || ''}
+                  onChange={(url) => setFormData({ ...formData, video: url })}
+                />
+              </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>

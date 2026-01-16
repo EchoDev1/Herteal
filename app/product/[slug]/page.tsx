@@ -27,7 +27,7 @@ export default function ProductDetailPage({
       <div className="container mx-auto px-6">
         {/* Product Detail */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
-          <ProductGallery images={product.images} productName={product.name} />
+          <ProductGallery images={product.images} productName={product.name} video={product.video} />
           <ProductInfo product={product} />
         </div>
 

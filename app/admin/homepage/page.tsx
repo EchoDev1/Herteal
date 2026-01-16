@@ -4,11 +4,13 @@ import { useState } from 'react';
 import { Edit, Save, X, Image as ImageIcon, Star, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 import ImageUpload from '@/components/admin/ImageUpload';
+import VideoUpload from '@/components/admin/VideoUpload';
 
 interface HeroSection {
   title: string;
   subtitle: string;
   image: string;
+  video?: string;
   ctaText: string;
   ctaLink: string;
 }
@@ -18,6 +20,7 @@ interface FeaturedItem {
   title: string;
   subtitle: string;
   image: string;
+  video?: string;
 }
 
 interface ArtOfHerteals {
@@ -38,6 +41,7 @@ interface Testimonial {
   rating: number;
   text: string;
   image: string;
+  video?: string;
 }
 
 interface PromoBanner {
@@ -156,6 +160,7 @@ export default function HomepageManagementPage() {
       title: '',
       subtitle: '',
       image: '',
+      video: '',
       ctaText: 'SHOP NOW',
       ctaLink: '/shop',
     });
@@ -180,6 +185,7 @@ export default function HomepageManagementPage() {
         title: heroFormData.title!,
         subtitle: heroFormData.subtitle!,
         image: heroFormData.image || '',
+        video: heroFormData.video || '',
         ctaText: heroFormData.ctaText || 'SHOP NOW',
         ctaLink: heroFormData.ctaLink || '/shop',
       };
@@ -238,6 +244,7 @@ export default function HomepageManagementPage() {
       title: '',
       subtitle: '',
       image: '',
+      video: '',
     });
     setIsEditingArt(true);
   };
@@ -269,6 +276,7 @@ export default function HomepageManagementPage() {
         title: featuredItemFormData.title!,
         subtitle: featuredItemFormData.subtitle!,
         image: featuredItemFormData.image || '',
+        video: featuredItemFormData.video || '',
       };
       setArtOfHerteals({
         ...artOfHerteals,
@@ -353,6 +361,7 @@ export default function HomepageManagementPage() {
         rating: testimonialFormData.rating || 5,
         text: testimonialFormData.text!,
         image: testimonialFormData.image || '',
+        video: testimonialFormData.video || '',
       };
       setTestimonials([...testimonials, newTestimonial]);
     }
@@ -370,7 +379,7 @@ export default function HomepageManagementPage() {
 
   const handleAddTestimonial = () => {
     setEditingTestimonialId(null);
-    setTestimonialFormData({ rating: 5 });
+    setTestimonialFormData({ rating: 5, video: '' });
     setIsEditingTestimonial(true);
   };
 
@@ -509,11 +518,19 @@ export default function HomepageManagementPage() {
                     />
                   </div>
 
-                  <ImageUpload
-                    label="Background Image"
-                    value={heroFormData.image || ''}
-                    onChange={(url) => setHeroFormData({ ...heroFormData, image: url })}
-                  />
+                  {/* Image and Video Upload - Side by Side */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <ImageUpload
+                      label="Background Image"
+                      value={heroFormData.image || ''}
+                      onChange={(url) => setHeroFormData({ ...heroFormData, image: url })}
+                    />
+                    <VideoUpload
+                      label="Background Video"
+                      value={heroFormData.video || ''}
+                      onChange={(url) => setHeroFormData({ ...heroFormData, video: url })}
+                    />
+                  </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -831,11 +848,19 @@ export default function HomepageManagementPage() {
                     />
                   </div>
 
-                  <ImageUpload
-                    label="Featured Item Image"
-                    value={featuredItemFormData.image || ''}
-                    onChange={(url) => setFeaturedItemFormData({ ...featuredItemFormData, image: url })}
-                  />
+                  {/* Image and Video Upload - Side by Side */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <ImageUpload
+                      label="Featured Item Image"
+                      value={featuredItemFormData.image || ''}
+                      onChange={(url) => setFeaturedItemFormData({ ...featuredItemFormData, image: url })}
+                    />
+                    <VideoUpload
+                      label="Featured Item Video"
+                      value={featuredItemFormData.video || ''}
+                      onChange={(url) => setFeaturedItemFormData({ ...featuredItemFormData, video: url })}
+                    />
+                  </div>
                 </div>
 
                 <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 p-6 flex justify-end gap-3">
@@ -1122,11 +1147,19 @@ export default function HomepageManagementPage() {
                     />
                   </div>
 
-                  <ImageUpload
-                    label="Profile Image"
-                    value={testimonialFormData.image || ''}
-                    onChange={(url) => setTestimonialFormData({ ...testimonialFormData, image: url })}
-                  />
+                  {/* Image and Video Upload - Side by Side */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <ImageUpload
+                      label="Profile Image"
+                      value={testimonialFormData.image || ''}
+                      onChange={(url) => setTestimonialFormData({ ...testimonialFormData, image: url })}
+                    />
+                    <VideoUpload
+                      label="Testimonial Video"
+                      value={testimonialFormData.video || ''}
+                      onChange={(url) => setTestimonialFormData({ ...testimonialFormData, video: url })}
+                    />
+                  </div>
                 </div>
 
                 <div className="p-6 border-t border-gray-200 flex justify-end gap-3 sticky bottom-0 bg-white">

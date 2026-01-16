@@ -20,6 +20,7 @@ export interface Product {
   description: string;
   longDescription: string;
   images: string[];
+  video?: string;
   sizes: Size[];
   colors: Color[];
   fabric: string;
