@@ -7,6 +7,7 @@ import PromoBanner from "@/components/layout/PromoBanner";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import LuxuryEffects from "@/components/ui/LuxuryEffects";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ProductsProvider } from "@/contexts/ProductsContext";
 
 // House of CB Inspired Fonts
 const playfair = Playfair_Display({
@@ -135,11 +136,13 @@ export default function RootLayout({
         className={`${playfair.variable} ${montserrat.variable} ${cormorantGaramond.variable} ${inter.variable} antialiased flex flex-col min-h-screen relative overflow-x-hidden`}
       >
         <AuthProvider>
-          <LuxuryEffects />
-          <Header />
-          <main className="flex-grow relative z-10">{children}</main>
-          <Footer />
-          <WhatsAppButton />
+          <ProductsProvider>
+            <LuxuryEffects />
+            <Header />
+            <main className="flex-grow relative z-10">{children}</main>
+            <Footer />
+            <WhatsAppButton />
+          </ProductsProvider>
         </AuthProvider>
       </body>
     </html>

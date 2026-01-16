@@ -2,13 +2,21 @@
 
 import { useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { products } from '@/data/products';
-import ProductCard from '../product/ProductCard';
+import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import { useProducts } from '@/contexts/ProductsContext';
+import Link from 'next/link';
 import Button from '../ui/Button';
 
 export default function FeaturedProducts() {
-  const featuredProducts = products.filter((p) => p.featured).slice(0, 8);
+  const { getProductsByCollection, getLatestProducts } = useProducts();
+
+  // Get products from "Ready To Wear Collection" or latest products as fallback
+  const collectionProducts = getProductsByCollection('Ready To Wear Collection');
+  const latestProducts = getLatestProducts(8);
+
+  // Use collection products if available, otherwise use latest products
+  const displayProducts = collectionProducts.length > 0 ? collectionProducts : latestProducts;
+
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: 'start',
     loop: false,
@@ -26,6 +34,10 @@ export default function FeaturedProducts() {
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
+
+  if (displayProducts.length === 0) {
+    return null;
+  }
 
   return (
     <section className="py-16 md:py-20 bg-[#FAF9F7]">
@@ -60,10 +72,10 @@ export default function FeaturedProducts() {
           </div>
         </div>
 
-        {/* Carousel - House of CB Style */}
+        {/* Carousel */}
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex gap-4 md:gap-6">
-            {featuredProducts.map((product) => (
+            {displayProducts.map((product) => (
               <div
                 key={product.id}
                 className="flex-[0_0_85%] sm:flex-[0_0_60%] md:flex-[0_0_45%] lg:flex-[0_0_30%] xl:flex-[0_0_23%] min-w-0"
@@ -82,5 +94,82 @@ export default function FeaturedProducts() {
         </div>
       </div>
     </section>
+  );
+}
+
+// Custom ProductCard for store products with video support
+function ProductCard({ product }: { product: ReturnType<typeof useProducts>['products'][0] }) {
+  const hasVideo = product.video && product.video.trim() !== '';
+  const hasImage = product.images && product.images.length > 0;
+  const displayImage = hasImage ? product.images[0] : null;
+
+  return (
+    <Link href={`/product/${product.slug}`} className="group block">
+      <div className="relative aspect-[2/3] bg-gray-100 overflow-hidden mb-4">
+        {/* Image or Video Thumbnail */}
+        {displayImage ? (
+          <img
+            src={displayImage}
+            alt={product.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+        ) : hasVideo ? (
+          <video
+            src={product.video}
+            className="w-full h-full object-cover"
+            muted
+            playsInline
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-400">
+            No Image
+          </div>
+        )}
+
+        {/* Video indicator */}
+        {hasVideo && (
+          <div className="absolute top-3 right-3 p-2 bg-black/60 rounded-full">
+            <Play className="w-4 h-4 text-white" />
+          </div>
+        )}
+
+        {/* Sale badge */}
+        {product.onSale && product.salePrice && (
+          <div className="absolute top-3 left-3 px-3 py-1 bg-[#8B0000] text-white text-xs font-semibold">
+            SALE
+          </div>
+        )}
+
+        {/* Quick view overlay */}
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+          <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 px-6 py-2 bg-white text-[#2D2D2D] text-sm font-medium">
+            View Product
+          </span>
+        </div>
+      </div>
+
+      {/* Product Info */}
+      <div className="text-center">
+        <h3 className="text-sm font-medium text-[#2D2D2D] mb-1 group-hover:text-[#2C5530] transition-colors">
+          {product.name}
+        </h3>
+        <div className="flex items-center justify-center gap-2">
+          {product.onSale && product.salePrice ? (
+            <>
+              <span className="text-sm font-semibold text-[#8B0000]">
+                ₦{product.salePrice.toLocaleString()}
+              </span>
+              <span className="text-sm text-gray-400 line-through">
+                ₦{product.price.toLocaleString()}
+              </span>
+            </>
+          ) : (
+            <span className="text-sm font-semibold text-[#2D2D2D]">
+              ₦{product.price.toLocaleString()}
+            </span>
+          )}
+        </div>
+      </div>
+    </Link>
   );
 }
