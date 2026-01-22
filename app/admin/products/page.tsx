@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 import { Plus, Edit, Trash2, Search, Play } from 'lucide-react';
 import MultiImageUpload from '@/components/admin/MultiImageUpload';
 import VideoUpload from '@/components/admin/VideoUpload';
@@ -131,10 +132,13 @@ export default function AdminProductsPage() {
                   <td className="px-6 py-4">
                     <div className="relative">
                       {product.images && product.images.length > 0 ? (
-                        <img
+                        <Image
                           src={product.images[0]}
                           alt={product.name}
+                          width={48}
+                          height={48}
                           className="w-12 h-12 object-cover rounded-lg"
+                          unoptimized={product.images[0].startsWith('data:')}
                         />
                       ) : product.video ? (
                         <div className="w-12 h-12 bg-gray-800 rounded-lg flex items-center justify-center">

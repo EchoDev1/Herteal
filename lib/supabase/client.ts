@@ -21,9 +21,6 @@ export const isSupabaseConfigured = () => {
 // Only create client if configuration exists
 let supabaseInstance: SupabaseClient | null = null;
 
-// Deprecated: Use getSupabase() instead
-export const supabase = null as any;
-
 // Safe getter for Supabase client
 export const getSupabase = () => {
   if (!isSupabaseConfigured()) {

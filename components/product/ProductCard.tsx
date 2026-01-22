@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
 import { Product } from '@/types/product';
 import { formatPrice } from '@/lib/utils';
 
@@ -11,14 +10,10 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <Link
       href={`/product/${product.slug}`}
       className="group block transform transition-all duration-300 hover:-translate-y-2"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container - Enhanced Hover */}
       <div className="relative aspect-[2/3] overflow-hidden bg-[#F9F9F9] mb-4 shadow-sm group-hover:shadow-2xl transition-shadow duration-300 border border-transparent group-hover:border-[#7A916C]">

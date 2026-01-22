@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter, Playfair_Display, Montserrat } from "next/font/google";
+import { Playfair_Display, Montserrat } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import PromoBanner from "@/components/layout/PromoBanner";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import LuxuryEffects from "@/components/ui/LuxuryEffects";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProductsProvider } from "@/contexts/ProductsContext";
+import { CollectionsProvider } from "@/contexts/CollectionsContext";
 
-// House of CB Inspired Fonts
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
@@ -21,20 +20,6 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
-
-// Legacy fonts (keep for backwards compatibility)
-const cormorantGaramond = Cormorant_Garamond({
-  variable: "--font-cormorant-garamond",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter-variable",
-  subsets: ["latin"],
   display: "swap",
 });
 
@@ -115,7 +100,7 @@ export const metadata: Metadata = {
     canonical: "https://herteals.com",
   },
   verification: {
-    google: "your-google-verification-code",
+    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION || "",
   },
   category: "fashion",
 };
@@ -133,15 +118,17 @@ export default function RootLayout({
         <meta name="theme-color" content="#15803d" />
       </head>
       <body
-        className={`${playfair.variable} ${montserrat.variable} ${cormorantGaramond.variable} ${inter.variable} antialiased flex flex-col min-h-screen relative overflow-x-hidden`}
+        className={`${playfair.variable} ${montserrat.variable} antialiased flex flex-col min-h-screen relative overflow-x-hidden`}
       >
         <AuthProvider>
           <ProductsProvider>
-            <LuxuryEffects />
-            <Header />
-            <main className="flex-grow relative z-10">{children}</main>
-            <Footer />
-            <WhatsAppButton />
+            <CollectionsProvider>
+              <LuxuryEffects />
+              <Header />
+              <main className="flex-grow relative z-10">{children}</main>
+              <Footer />
+              <WhatsAppButton />
+            </CollectionsProvider>
           </ProductsProvider>
         </AuthProvider>
       </body>

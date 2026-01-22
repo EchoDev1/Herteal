@@ -317,9 +317,11 @@ export default function Header() {
       >
         <div className="container mx-auto px-4 py-4 border-b border-[#F0F0F0]">
           <div className="relative max-w-2xl mx-auto">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" aria-hidden="true" />
+            <label htmlFor="header-search" className="sr-only">Search for products</label>
             <input
-              type="text"
+              id="header-search"
+              type="search"
               placeholder="Search for products..."
               className="w-full pl-12 pr-4 py-3 border border-[#F0F0F0] rounded-lg focus:outline-none focus:border-[#2C5530] transition-colors"
               autoFocus
@@ -327,8 +329,10 @@ export default function Header() {
             <button
               onClick={() => setSearchOpen(false)}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#2D2D2D]"
+              aria-label="Close search"
+              type="button"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -340,6 +344,8 @@ export default function Header() {
           mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setMobileMenuOpen(false)}
+        aria-hidden={!mobileMenuOpen}
+        role="presentation"
       >
         <div
           className={`fixed left-0 top-0 bottom-0 w-80 max-w-[85vw] bg-[#7A916C] shadow-2xl transform transition-transform duration-300 ${
@@ -356,13 +362,15 @@ export default function Header() {
             <button
               onClick={() => setMobileMenuOpen(false)}
               className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
+              aria-label="Close menu"
+              type="button"
             >
-              <X className="w-5 h-5 text-[#2D2D2D]" />
+              <X className="w-5 h-5 text-[#2D2D2D]" aria-hidden="true" />
             </button>
           </div>
 
           {/* Mobile Navigation */}
-          <nav className="p-4 space-y-1.5 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 80px)' }}>
+          <nav className="p-4 space-y-1.5 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 80px)' }} aria-label="Mobile navigation">
             {/* Category Links */}
             <Link
               href="/shop?category=traditional"
