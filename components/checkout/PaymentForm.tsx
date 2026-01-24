@@ -12,7 +12,7 @@ export default function PaymentForm() {
         disabled
       />
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Input label="Expiry Date" type="text" placeholder="MM/YY" disabled />
         <Input label="CVV" type="text" placeholder="123" disabled />
       </div>

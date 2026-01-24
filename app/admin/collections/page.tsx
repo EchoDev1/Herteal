@@ -5,52 +5,10 @@ import Link from 'next/link';
 import { Plus, Edit, Trash2, Save, X, Image as ImageIcon, Package } from 'lucide-react';
 import ImageUpload from '@/components/admin/ImageUpload';
 import VideoUpload from '@/components/admin/VideoUpload';
-
-interface Collection {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  image: string;
-  video?: string;
-  productCount: number;
-  featured: boolean;
-  order: number;
-}
+import { useCollections, Collection } from '@/contexts/CollectionsContext';
 
 export default function CollectionsManagementPage() {
-  const [collections, setCollections] = useState<Collection[]>([
-    {
-      id: '1',
-      name: 'Dresses',
-      slug: 'dresses',
-      description: 'Elegant dresses for every occasion',
-      image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8',
-      productCount: 0,
-      featured: true,
-      order: 1,
-    },
-    {
-      id: '2',
-      name: 'Suits',
-      slug: 'suits',
-      description: 'Tailored suits for the modern woman',
-      image: 'https://images.unsplash.com/photo-1594938291221-94f18cbb5660',
-      productCount: 0,
-      featured: true,
-      order: 2,
-    },
-    {
-      id: '3',
-      name: 'Blouses',
-      slug: 'blouses',
-      description: 'Sophisticated blouses and tops',
-      image: 'https://images.unsplash.com/photo-1618932260643-eee4a2f652a6',
-      productCount: 0,
-      featured: true,
-      order: 3,
-    },
-  ]);
+  const { collections, isLoaded, addCollection, updateCollection, deleteCollection } = useCollections();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCollection, setEditingCollection] = useState<Collection | null>(null);
@@ -61,7 +19,7 @@ export default function CollectionsManagementPage() {
     image: '',
     video: '',
     featured: false,
-    order: collections.length + 1,
+    order: 1,
   });
 
   const handleAdd = () => {
@@ -86,7 +44,7 @@ export default function CollectionsManagementPage() {
 
   const handleDelete = (id: string) => {
     if (confirm('Are you sure you want to delete this collection?')) {
-      setCollections(collections.filter(c => c.id !== id));
+      deleteCollection(id);
     }
   };
 
@@ -98,23 +56,18 @@ export default function CollectionsManagementPage() {
 
     if (editingCollection) {
       // Update existing collection
-      setCollections(collections.map(c =>
-        c.id === editingCollection.id ? { ...c, ...formData } as Collection : c
-      ));
+      updateCollection(editingCollection.id, formData);
     } else {
       // Add new collection
-      const newCollection: Collection = {
-        id: Date.now().toString(),
+      addCollection({
         name: formData.name!,
         slug: formData.slug!,
         description: formData.description || '',
         image: formData.image || '',
         video: formData.video || '',
-        productCount: 0,
         featured: formData.featured || false,
         order: formData.order || collections.length + 1,
-      };
-      setCollections([...collections, newCollection]);
+      });
     }
 
     setIsModalOpen(false);
@@ -127,19 +80,27 @@ export default function CollectionsManagementPage() {
     setEditingCollection(null);
   };
 
+  if (!isLoaded) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#7A916C]"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-[family-name:var(--font-playfair)] font-bold text-[#2C5530]">
+          <h1 className="text-2xl sm:text-3xl font-[family-name:var(--font-playfair)] font-bold text-[#2C5530]">
             Collections Management
           </h1>
-          <p className="text-gray-600 mt-1">Manage your product collections and categories</p>
+          <p className="text-gray-600 mt-1 text-sm sm:text-base">Manage your product collections and categories</p>
         </div>
         <button
           onClick={handleAdd}
-          className="px-4 py-2 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors flex items-center gap-2"
+          className="w-full sm:w-auto px-4 py-2 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors flex items-center justify-center gap-2"
         >
           <Plus className="w-5 h-5" />
           Add Collection
@@ -148,7 +109,7 @@ export default function CollectionsManagementPage() {
 
       {/* Collections Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {collections.sort((a, b) => a.order - b.order).map((collection) => (
+        {[...collections].sort((a, b) => a.order - b.order).map((collection) => (
           <div key={collection.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
             {/* Image */}
             <div className="h-48 bg-gray-200 relative">
@@ -228,7 +189,7 @@ export default function CollectionsManagementPage() {
 
             {/* Modal Content */}
             <div className="p-6 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Collection Name *
@@ -270,7 +231,7 @@ export default function CollectionsManagementPage() {
               </div>
 
               {/* Image and Video Upload - Side by Side */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <ImageUpload
                   label="Collection Image"
                   value={formData.image || ''}
@@ -283,7 +244,7 @@ export default function CollectionsManagementPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Display Order
