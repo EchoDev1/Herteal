@@ -107,7 +107,7 @@ export default function AdminProductsPage() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search products..."
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
         />
       </div>
 
@@ -341,7 +341,7 @@ function ProductModal({
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="Enter product name"
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] ${
+              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400 ${
                 errors.name ? 'border-red-500' : 'border-[#7A916C]/30'
               }`}
             />
@@ -358,7 +358,7 @@ function ProductModal({
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Enter product description"
               rows={3}
-              className="w-full px-4 py-2 border border-[#7A916C]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C]"
+              className="w-full px-4 py-2 border border-[#7A916C]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400"
             />
           </div>
 
@@ -375,7 +375,7 @@ function ProductModal({
                 placeholder="Enter price"
                 min="0"
                 step="0.01"
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] ${
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400 ${
                   errors.price ? 'border-red-500' : 'border-[#7A916C]/30'
                 }`}
               />
@@ -391,7 +391,7 @@ function ProductModal({
                 onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
                 placeholder="Enter stock quantity"
                 min="0"
-                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] ${
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400 ${
                   errors.stock ? 'border-red-500' : 'border-[#7A916C]/30'
                 }`}
               />
@@ -408,7 +408,7 @@ function ProductModal({
               <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent ${
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white ${
                   errors.category ? 'border-red-500' : 'border-gray-300'
                 }`}
               >
@@ -430,7 +430,7 @@ function ProductModal({
               <select
                 value={formData.collection}
                 onChange={(e) => setFormData({ ...formData, collection: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white"
               >
                 <option value="">No collection (won&apos;t show on homepage)</option>
                 <option value="Ready To Wear Collection">Ready To Wear Collection</option>
@@ -446,7 +446,7 @@ function ProductModal({
               <select
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value as 'active' | 'inactive' })}
-                className="w-full px-4 py-2 border border-[#7A916C]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C]"
+                className="w-full px-4 py-2 border border-[#7A916C]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white"
               >
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>

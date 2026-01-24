@@ -176,7 +176,7 @@ export default function SettingsPage() {
                   type="text"
                   value={siteSettings.siteName}
                   onChange={(e) => setSiteSettings({ ...siteSettings, siteName: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                 />
               </div>
 
@@ -186,7 +186,7 @@ export default function SettingsPage() {
                   type="text"
                   value={siteSettings.siteDescription}
                   onChange={(e) => setSiteSettings({ ...siteSettings, siteDescription: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                 />
               </div>
 
@@ -197,7 +197,7 @@ export default function SettingsPage() {
                     type="email"
                     value={siteSettings.contactEmail}
                     onChange={(e) => setSiteSettings({ ...siteSettings, contactEmail: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                   />
                 </div>
 
@@ -207,7 +207,7 @@ export default function SettingsPage() {
                     type="tel"
                     value={siteSettings.contactPhone}
                     onChange={(e) => setSiteSettings({ ...siteSettings, contactPhone: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                   />
                 </div>
               </div>
@@ -218,7 +218,7 @@ export default function SettingsPage() {
                   type="text"
                   value={siteSettings.address}
                   onChange={(e) => setSiteSettings({ ...siteSettings, address: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                 />
               </div>
             </div>
@@ -234,7 +234,7 @@ export default function SettingsPage() {
                     type="text"
                     value={siteSettings.currency}
                     onChange={(e) => setSiteSettings({ ...siteSettings, currency: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                   />
                 </div>
 
@@ -244,7 +244,7 @@ export default function SettingsPage() {
                     type="number"
                     value={siteSettings.taxRate}
                     onChange={(e) => setSiteSettings({ ...siteSettings, taxRate: parseFloat(e.target.value) })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                     step="0.1"
                   />
                 </div>
@@ -257,7 +257,7 @@ export default function SettingsPage() {
                     type="number"
                     value={siteSettings.shippingFee}
                     onChange={(e) => setSiteSettings({ ...siteSettings, shippingFee: parseFloat(e.target.value) })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                   />
                 </div>
 
@@ -267,7 +267,7 @@ export default function SettingsPage() {
                     type="number"
                     value={siteSettings.freeShippingThreshold}
                     onChange={(e) => setSiteSettings({ ...siteSettings, freeShippingThreshold: parseFloat(e.target.value) })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                   />
                 </div>
               </div>
@@ -392,7 +392,7 @@ export default function SettingsPage() {
                         type="text"
                         value={paymentConfig.paystackPublicKey}
                         onChange={(e) => setPaymentConfig({ ...paymentConfig, paystackPublicKey: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                         placeholder="pk_test_..."
                       />
                     </div>
@@ -404,7 +404,7 @@ export default function SettingsPage() {
                         type="password"
                         value={paymentConfig.paystackSecretKey}
                         onChange={(e) => setPaymentConfig({ ...paymentConfig, paystackSecretKey: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                         placeholder="sk_test_..."
                       />
                     </div>
@@ -434,7 +434,7 @@ export default function SettingsPage() {
                         type="text"
                         value={paymentConfig.flutterwavePublicKey}
                         onChange={(e) => setPaymentConfig({ ...paymentConfig, flutterwavePublicKey: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                         placeholder="FLWPUBK_TEST-..."
                       />
                     </div>
@@ -446,7 +446,7 @@ export default function SettingsPage() {
                         type="password"
                         value={paymentConfig.flutterwaveSecretKey}
                         onChange={(e) => setPaymentConfig({ ...paymentConfig, flutterwaveSecretKey: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                         placeholder="FLWSECK_TEST-..."
                       />
                     </div>
@@ -476,7 +476,7 @@ export default function SettingsPage() {
                         type="text"
                         value={paymentConfig.opayMerchantId}
                         onChange={(e) => setPaymentConfig({ ...paymentConfig, opayMerchantId: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                         placeholder="Your Opay Merchant ID"
                       />
                     </div>
@@ -488,7 +488,7 @@ export default function SettingsPage() {
                         type="text"
                         value={paymentConfig.opayPublicKey}
                         onChange={(e) => setPaymentConfig({ ...paymentConfig, opayPublicKey: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                         placeholder="OPAYPRV..."
                       />
                     </div>
@@ -500,7 +500,7 @@ export default function SettingsPage() {
                         type="password"
                         value={paymentConfig.opaySecretKey}
                         onChange={(e) => setPaymentConfig({ ...paymentConfig, opaySecretKey: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                         placeholder="OPAYSEC..."
                       />
                     </div>
@@ -530,7 +530,7 @@ export default function SettingsPage() {
                         type="text"
                         value={paymentConfig.bankAccountName}
                         onChange={(e) => setPaymentConfig({ ...paymentConfig, bankAccountName: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                         placeholder="Herteals Limited"
                       />
                     </div>
@@ -542,7 +542,7 @@ export default function SettingsPage() {
                         type="text"
                         value={paymentConfig.bankAccountNumber}
                         onChange={(e) => setPaymentConfig({ ...paymentConfig, bankAccountNumber: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                         placeholder="0123456789"
                       />
                     </div>
@@ -554,7 +554,7 @@ export default function SettingsPage() {
                         type="text"
                         value={paymentConfig.bankName}
                         onChange={(e) => setPaymentConfig({ ...paymentConfig, bankName: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
                         placeholder="e.g., Access Bank, GTBank, First Bank"
                       />
                     </div>

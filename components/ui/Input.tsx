@@ -31,6 +31,7 @@ export default function Input({
           focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent
           transition-all duration-300
           placeholder:text-soft-gray
+          text-gray-900 bg-white
           ${error ? 'border-red-500' : ''}
           ${className}
         `}

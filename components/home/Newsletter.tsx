@@ -68,7 +68,7 @@ export default function Newsletter() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
                     required
-                    className="w-full px-4 py-3 border border-[#F0F0F0] focus:border-[#2C5530] focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 border border-[#F0F0F0] focus:border-[#2C5530] focus:outline-none transition-colors text-gray-900 bg-white placeholder:text-gray-400"
                     disabled={isLoading}
                   />
                 </div>
