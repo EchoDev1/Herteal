@@ -123,7 +123,7 @@ export default function VideoUpload({ value, onChange, label, className = '' }: 
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
-          className={`border-2 border-dashed rounded-lg p-8 text-center transition-all ${
+          className={`border-2 border-dashed rounded-lg p-4 sm:p-8 text-center transition-all ${
             isDragging
               ? 'border-[#7A916C] bg-[#7A916C]/5'
               : 'border-gray-300 hover:border-[#7A916C]'
@@ -137,32 +137,29 @@ export default function VideoUpload({ value, onChange, label, className = '' }: 
             className="hidden"
           />
 
-          <div className="flex flex-col items-center gap-3">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+          <div className="flex flex-col items-center gap-2 sm:gap-3">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-100 rounded-full flex items-center justify-center">
               {isDragging ? (
-                <Upload className="w-8 h-8 text-[#7A916C] animate-bounce" />
+                <Upload className="w-6 h-6 sm:w-8 sm:h-8 text-[#7A916C] animate-bounce" />
               ) : (
-                <Video className="w-8 h-8 text-gray-400" />
+                <Video className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" />
               )}
             </div>
 
             <div>
-              <p className="text-sm font-medium text-gray-700 mb-1">
-                {isDragging ? 'Drop video here' : 'Drag and drop video here'}
-              </p>
-              <p className="text-xs text-gray-500 mb-3">
-                or
+              <p className="text-xs sm:text-sm font-medium text-gray-700 mb-1">
+                {isDragging ? 'Drop video here' : 'Drag & drop or'}
               </p>
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="px-4 py-2 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors text-sm font-medium"
+                className="px-3 py-1.5 sm:px-4 sm:py-2 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors text-xs sm:text-sm font-medium"
               >
                 Select Video
               </button>
             </div>
 
-            <p className="text-xs text-gray-400 mt-2">
+            <p className="text-xs text-gray-400">
               MP4, WebM, OGG up to 50MB
             </p>
           </div>

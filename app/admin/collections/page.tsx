@@ -49,34 +49,56 @@ export default function CollectionsManagementPage() {
   };
 
   const handleSave = () => {
-    if (!formData.name || !formData.slug) {
-      alert('Please fill in all required fields');
-      return;
-    }
+    try {
+      if (!formData.name || !formData.slug) {
+        alert('Please fill in all required fields');
+        return;
+      }
 
-    if (editingCollection) {
-      // Update existing collection
-      updateCollection(editingCollection.id, formData);
-    } else {
-      // Add new collection
-      addCollection({
-        name: formData.name!,
-        slug: formData.slug!,
-        description: formData.description || '',
-        image: formData.image || '',
-        video: formData.video || '',
-        featured: formData.featured || false,
-        order: formData.order || collections.length + 1,
-      });
-    }
+      if (editingCollection) {
+        // Update existing collection
+        updateCollection(editingCollection.id, formData);
+      } else {
+        // Add new collection
+        addCollection({
+          name: formData.name!,
+          slug: formData.slug!,
+          description: formData.description || '',
+          image: formData.image || '',
+          video: formData.video || '',
+          featured: formData.featured || false,
+          order: formData.order || collections.length + 1,
+        });
+      }
 
-    setIsModalOpen(false);
-    setFormData({});
+      setIsModalOpen(false);
+    setFormData({
+      name: '',
+      slug: '',
+      description: '',
+      image: '',
+      video: '',
+      featured: false,
+      order: 1,
+    });
+    setEditingCollection(null);
+    } catch (error) {
+      console.error('Error saving collection:', error);
+      alert('An error occurred while saving. Please try again.');
+    }
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
-    setFormData({});
+    setFormData({
+      name: '',
+      slug: '',
+      description: '',
+      image: '',
+      video: '',
+      featured: false,
+      order: 1,
+    });
     setEditingCollection(null);
   };
 
@@ -172,23 +194,23 @@ export default function CollectionsManagementPage() {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl my-4 sm:my-0">
             {/* Modal Header */}
-            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-[#2C5530]">
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-4 sm:p-6 flex items-center justify-between rounded-t-lg z-10">
+              <h2 className="text-lg sm:text-2xl font-bold text-[#2C5530]">
                 {editingCollection ? 'Edit Collection' : 'Add New Collection'}
               </h2>
               <button
                 onClick={handleCancel}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Modal Content */}
-            <div className="p-6 space-y-4">
+            <div className="p-4 sm:p-6 space-y-4 max-h-[60vh] overflow-y-auto">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -273,16 +295,16 @@ export default function CollectionsManagementPage() {
             </div>
 
             {/* Modal Footer */}
-            <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 p-6 flex justify-end gap-3">
+            <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 p-4 sm:p-6 flex flex-col sm:flex-row justify-end gap-3 rounded-b-lg">
               <button
                 onClick={handleCancel}
-                className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                className="w-full sm:w-auto px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors order-2 sm:order-1"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSave}
-                className="px-6 py-2 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors flex items-center gap-2"
+                className="w-full sm:w-auto px-6 py-2 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors flex items-center justify-center gap-2 order-1 sm:order-2"
               >
                 <Save className="w-4 h-4" />
                 {editingCollection ? 'Save Changes' : 'Create Collection'}

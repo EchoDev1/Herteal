@@ -319,18 +319,29 @@ function ProductModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6 border-b border-[#F0F0F0]">
-          <h2 className="text-xl font-semibold text-[#2D2D2D]">
-            {product ? 'Edit Product' : 'Add New Product'}
-          </h2>
-          <p className="text-sm text-gray-500 mt-1">
-            Fill in the product details. Images and video are optional.
-          </p>
+    <div className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl my-4 sm:my-0">
+        <div className="sticky top-0 bg-white p-4 sm:p-6 border-b border-[#F0F0F0] flex items-center justify-between rounded-t-lg z-10">
+          <div>
+            <h2 className="text-lg sm:text-xl font-semibold text-[#2D2D2D]">
+              {product ? 'Edit Product' : 'Add New Product'}
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-500 mt-1">
+              Fill in the product details. Images and video are optional.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 max-h-[70vh] overflow-y-auto">
           {/* Product Name */}
           <div>
             <label className="block text-sm font-medium text-[#2D2D2D] mb-2">
@@ -487,23 +498,26 @@ function ProductModal({
             </p>
           </div>
 
-          {/* Submit Buttons */}
-          <div className="flex gap-3 pt-4">
-            <button
-              type="submit"
-              className="flex-1 py-3 px-4 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors font-medium"
-            >
-              {product ? 'Update Product' : 'Add Product'}
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 py-3 px-4 bg-gray-200 text-[#2D2D2D] rounded-lg hover:bg-gray-300 transition-colors font-medium"
-            >
-              Cancel
-            </button>
-          </div>
         </form>
+
+        {/* Submit Buttons - Sticky Footer */}
+        <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 p-4 sm:p-6 flex flex-col sm:flex-row gap-3 rounded-b-lg">
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-full sm:flex-1 py-3 px-4 bg-gray-200 text-[#2D2D2D] rounded-lg hover:bg-gray-300 transition-colors font-medium order-2 sm:order-1"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            form="product-form"
+            onClick={handleSubmit}
+            className="w-full sm:flex-1 py-3 px-4 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors font-medium order-1 sm:order-2"
+          >
+            {product ? 'Update Product' : 'Add Product'}
+          </button>
+        </div>
       </div>
     </div>
   );
