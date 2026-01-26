@@ -481,9 +481,9 @@ export default function HomepageManagementPage() {
 
           {/* Hero Section Modal */}
           {isEditingHero && (
-            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-              <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+            <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 overflow-y-auto">
+              <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col my-auto">
+                <div className="flex-shrink-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-lg">
                   <h3 className="text-2xl font-bold text-[#2C5530]">
                     {editingHeroId ? 'Edit Hero Section' : 'Add New Hero Section'}
                   </h3>
@@ -495,7 +495,7 @@ export default function HomepageManagementPage() {
                   </button>
                 </div>
 
-                <div className="p-6 space-y-4">
+                <div className="flex-1 min-h-0 p-6 space-y-4 overflow-y-auto">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Title *</label>
                     <input
@@ -557,7 +557,7 @@ export default function HomepageManagementPage() {
                   </div>
                 </div>
 
-                <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 p-6 flex justify-end gap-3">
+                <div className="flex-shrink-0 bg-gray-50 border-t border-gray-200 p-6 flex justify-end gap-3 rounded-b-lg">
                   <button
                     onClick={handleCancelHero}
                     className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
@@ -811,9 +811,9 @@ export default function HomepageManagementPage() {
 
           {/* Featured Item Modal */}
           {isEditingArt && (
-            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-              <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+            <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 overflow-y-auto">
+              <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col my-auto">
+                <div className="flex-shrink-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-lg">
                   <h3 className="text-2xl font-bold text-[#2C5530]">
                     {editingFeaturedItemId ? 'Edit Featured Item' : 'Add New Featured Item'}
                   </h3>
@@ -825,7 +825,7 @@ export default function HomepageManagementPage() {
                   </button>
                 </div>
 
-                <div className="p-6 space-y-4">
+                <div className="flex-1 min-h-0 p-6 space-y-4 overflow-y-auto">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Title *</label>
                     <input
@@ -863,7 +863,7 @@ export default function HomepageManagementPage() {
                   </div>
                 </div>
 
-                <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 p-6 flex justify-end gap-3">
+                <div className="flex-shrink-0 bg-gray-50 border-t border-gray-200 p-6 flex justify-end gap-3 rounded-b-lg">
                   <button
                     onClick={handleCancelFeaturedItem}
                     className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
@@ -1085,9 +1085,9 @@ export default function HomepageManagementPage() {
 
           {/* Testimonial Modal */}
           {isEditingTestimonial && (
-            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-              <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                <div className="p-6 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white">
+            <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 overflow-y-auto">
+              <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col my-auto">
+                <div className="flex-shrink-0 p-6 border-b border-gray-200 flex items-center justify-between bg-white rounded-t-lg">
                   <h3 className="text-2xl font-bold text-[#2C5530]">
                     {editingTestimonialId ? 'Edit Testimonial' : 'Add Testimonial'}
                   </h3>
@@ -1099,7 +1099,7 @@ export default function HomepageManagementPage() {
                   </button>
                 </div>
 
-                <div className="p-6 space-y-4">
+                <div className="flex-1 min-h-0 p-6 space-y-4 overflow-y-auto">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Name *</label>
@@ -1162,7 +1162,7 @@ export default function HomepageManagementPage() {
                   </div>
                 </div>
 
-                <div className="p-6 border-t border-gray-200 flex justify-end gap-3 sticky bottom-0 bg-white">
+                <div className="flex-shrink-0 p-6 border-t border-gray-200 flex justify-end gap-3 bg-gray-50 rounded-b-lg">
                   <button
                     onClick={() => setIsEditingTestimonial(false)}
                     className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"

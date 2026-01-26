@@ -319,9 +319,9 @@ function ProductModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl my-4 sm:my-0">
-        <div className="sticky top-0 bg-white p-4 sm:p-6 border-b border-[#F0F0F0] flex items-center justify-between rounded-t-lg z-10">
+    <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] flex flex-col my-auto">
+        <div className="flex-shrink-0 bg-white p-4 sm:p-6 border-b border-[#F0F0F0] flex items-center justify-between rounded-t-lg">
           <div>
             <h2 className="text-lg sm:text-xl font-semibold text-[#2D2D2D]">
               {product ? 'Edit Product' : 'Add New Product'}
@@ -341,7 +341,7 @@ function ProductModal({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 max-h-[70vh] overflow-y-auto">
+        <form onSubmit={handleSubmit} className="flex-1 min-h-0 p-4 sm:p-6 space-y-4 overflow-y-auto">
           {/* Product Name */}
           <div>
             <label className="block text-sm font-medium text-[#2D2D2D] mb-2">
@@ -500,8 +500,8 @@ function ProductModal({
 
         </form>
 
-        {/* Submit Buttons - Sticky Footer */}
-        <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 p-4 sm:p-6 flex flex-col sm:flex-row gap-3 rounded-b-lg">
+        {/* Submit Buttons - Footer */}
+        <div className="flex-shrink-0 bg-gray-50 border-t border-gray-200 p-4 sm:p-6 flex flex-col sm:flex-row gap-3 rounded-b-lg">
           <button
             type="button"
             onClick={onClose}

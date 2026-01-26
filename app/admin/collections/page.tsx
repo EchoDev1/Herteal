@@ -194,10 +194,10 @@ export default function CollectionsManagementPage() {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-start sm:items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl my-4 sm:my-0">
+        <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col my-auto">
             {/* Modal Header */}
-            <div className="sticky top-0 bg-white border-b border-gray-200 p-4 sm:p-6 flex items-center justify-between rounded-t-lg z-10">
+            <div className="flex-shrink-0 bg-white border-b border-gray-200 p-4 sm:p-6 flex items-center justify-between rounded-t-lg">
               <h2 className="text-lg sm:text-2xl font-bold text-[#2C5530]">
                 {editingCollection ? 'Edit Collection' : 'Add New Collection'}
               </h2>
@@ -210,7 +210,7 @@ export default function CollectionsManagementPage() {
             </div>
 
             {/* Modal Content */}
-            <div className="p-4 sm:p-6 space-y-4 max-h-[60vh] overflow-y-auto">
+            <div className="flex-1 min-h-0 p-4 sm:p-6 space-y-4 overflow-y-auto">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -295,7 +295,7 @@ export default function CollectionsManagementPage() {
             </div>
 
             {/* Modal Footer */}
-            <div className="sticky bottom-0 bg-gray-50 border-t border-gray-200 p-4 sm:p-6 flex flex-col sm:flex-row justify-end gap-3 rounded-b-lg">
+            <div className="flex-shrink-0 bg-gray-50 border-t border-gray-200 p-4 sm:p-6 flex flex-col sm:flex-row justify-end gap-3 rounded-b-lg">
               <button
                 onClick={handleCancel}
                 className="w-full sm:w-auto px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors order-2 sm:order-1"

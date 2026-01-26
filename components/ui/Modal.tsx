@@ -43,17 +43,17 @@ export default function Modal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center px-4"
+      className="fixed inset-0 z-50 flex items-start justify-center px-4 py-4 overflow-y-auto"
       onClick={onClose}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
 
       {/* Modal */}
       <div
         className={`
           relative bg-white w-full ${sizes[size]}
-          max-h-[90vh] overflow-y-auto
+          max-h-[90vh] overflow-y-auto my-auto
           shadow-2xl
         `}
         onClick={(e) => e.stopPropagation()}
