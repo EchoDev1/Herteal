@@ -319,8 +319,8 @@ function ProductModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 overflow-y-auto">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl my-4 flex flex-col">
+    <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl mt-4 mb-4 max-h-[calc(100vh-2rem)] flex flex-col">
         <div className="flex-shrink-0 bg-white p-4 sm:p-6 border-b border-[#F0F0F0] flex items-center justify-between rounded-t-lg">
           <div>
             <h2 className="text-lg sm:text-xl font-semibold text-[#2D2D2D]">

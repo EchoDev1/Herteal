@@ -292,8 +292,8 @@ export default function OrdersManagementPage() {
 
       {/* View Order Modal */}
       {isViewModalOpen && selectedOrder && (
-        <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full my-4 flex flex-col">
+        <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mt-4 mb-4 max-h-[calc(100vh-2rem)] flex flex-col">
             {/* Modal Header */}
             <div className="flex-shrink-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-lg">
               <h2 className="text-2xl font-bold text-[#2C5530]">Order Details</h2>
@@ -389,8 +389,8 @@ export default function OrdersManagementPage() {
 
       {/* Add Order Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full my-4 flex flex-col">
+        <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full mt-4 mb-4 max-h-[calc(100vh-2rem)] flex flex-col">
             <div className="flex-shrink-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-lg">
               <h2 className="text-2xl font-bold text-[#2C5530]">Create New Order</h2>
               <button
