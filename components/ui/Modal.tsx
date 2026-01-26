@@ -43,7 +43,7 @@ export default function Modal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center px-4 py-4"
+      className="fixed inset-0 z-50 flex items-start justify-center p-2"
       onClick={onClose}
     >
       {/* Backdrop */}
@@ -53,7 +53,7 @@ export default function Modal({
       <div
         className={`
           relative bg-white w-full ${sizes[size]}
-          mt-4 mb-4 max-h-[calc(100vh-2rem)] overflow-y-auto
+          max-h-[calc(100vh-1rem)] overflow-y-auto
           shadow-2xl
         `}
         onClick={(e) => e.stopPropagation()}

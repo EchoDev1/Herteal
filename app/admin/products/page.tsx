@@ -327,8 +327,8 @@ function ProductModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl mt-4 mb-4 max-h-[calc(100vh-2rem)] flex flex-col">
+    <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-2">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[calc(100vh-1rem)] flex flex-col">
         <div className="flex-shrink-0 bg-white px-4 py-3 sm:px-6 sm:py-4 border-b border-[#F0F0F0] flex items-center justify-between rounded-t-lg">
           <h2 className="text-lg sm:text-xl font-semibold text-[#2D2D2D]">
             {product ? 'Edit Product' : 'Add New Product'}

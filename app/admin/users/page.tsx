@@ -364,8 +364,8 @@ function UserModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full mt-4 mb-4 max-h-[calc(100vh-2rem)] flex flex-col">
+    <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-2">
+      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[calc(100vh-1rem)] flex flex-col">
         {/* Modal Header */}
         <div className="flex-shrink-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-lg">
           <h2 className="text-2xl font-bold text-[#2C5530]">
