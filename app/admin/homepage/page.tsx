@@ -482,7 +482,7 @@ export default function HomepageManagementPage() {
           {/* Hero Section Modal */}
           {isEditingHero && (
             <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 overflow-y-auto">
-              <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col my-auto">
+              <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full my-4 flex flex-col">
                 <div className="flex-shrink-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-lg">
                   <h3 className="text-2xl font-bold text-[#2C5530]">
                     {editingHeroId ? 'Edit Hero Section' : 'Add New Hero Section'}
@@ -812,7 +812,7 @@ export default function HomepageManagementPage() {
           {/* Featured Item Modal */}
           {isEditingArt && (
             <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 overflow-y-auto">
-              <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col my-auto">
+              <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full my-4 flex flex-col">
                 <div className="flex-shrink-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between rounded-t-lg">
                   <h3 className="text-2xl font-bold text-[#2C5530]">
                     {editingFeaturedItemId ? 'Edit Featured Item' : 'Add New Featured Item'}
@@ -1086,7 +1086,7 @@ export default function HomepageManagementPage() {
           {/* Testimonial Modal */}
           {isEditingTestimonial && (
             <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 overflow-y-auto">
-              <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col my-auto">
+              <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full my-4 flex flex-col">
                 <div className="flex-shrink-0 p-6 border-b border-gray-200 flex items-center justify-between bg-white rounded-t-lg">
                   <h3 className="text-2xl font-bold text-[#2C5530]">
                     {editingTestimonialId ? 'Edit Testimonial' : 'Add Testimonial'}

@@ -53,7 +53,7 @@ export default function Modal({
       <div
         className={`
           relative bg-white w-full ${sizes[size]}
-          max-h-[90vh] overflow-y-auto my-auto
+          my-4 overflow-y-auto
           shadow-2xl
         `}
         onClick={(e) => e.stopPropagation()}

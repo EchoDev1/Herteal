@@ -195,7 +195,7 @@ export default function CollectionsManagementPage() {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col my-auto">
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl my-4 flex flex-col">
             {/* Modal Header */}
             <div className="flex-shrink-0 bg-white border-b border-gray-200 p-4 sm:p-6 flex items-center justify-between rounded-t-lg">
               <h2 className="text-lg sm:text-2xl font-bold text-[#2C5530]">
