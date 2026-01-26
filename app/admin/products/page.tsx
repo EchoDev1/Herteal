@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { Plus, Edit, Trash2, Search, Play } from 'lucide-react';
@@ -271,6 +271,14 @@ function ProductModal({
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // Scroll form to top when modal opens
+  useEffect(() => {
+    if (formRef.current) {
+      formRef.current.scrollTop = 0;
+    }
+  }, []);
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -321,15 +329,10 @@ function ProductModal({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl mt-4 mb-4 max-h-[calc(100vh-2rem)] flex flex-col">
-        <div className="flex-shrink-0 bg-white p-4 sm:p-6 border-b border-[#F0F0F0] flex items-center justify-between rounded-t-lg">
-          <div>
-            <h2 className="text-lg sm:text-xl font-semibold text-[#2D2D2D]">
-              {product ? 'Edit Product' : 'Add New Product'}
-            </h2>
-            <p className="text-xs sm:text-sm text-gray-500 mt-1">
-              Fill in the product details. Images and video are optional.
-            </p>
-          </div>
+        <div className="flex-shrink-0 bg-white px-4 py-3 sm:px-6 sm:py-4 border-b border-[#F0F0F0] flex items-center justify-between rounded-t-lg">
+          <h2 className="text-lg sm:text-xl font-semibold text-[#2D2D2D]">
+            {product ? 'Edit Product' : 'Add New Product'}
+          </h2>
           <button
             type="button"
             onClick={onClose}
@@ -341,7 +344,7 @@ function ProductModal({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex-1 min-h-0 p-4 sm:p-6 space-y-4 overflow-y-auto">
+        <form ref={formRef} onSubmit={handleSubmit} className="flex-1 min-h-0 p-4 sm:p-6 space-y-4 overflow-y-auto">
           {/* Product Name */}
           <div>
             <label className="block text-sm font-medium text-[#2D2D2D] mb-2">
