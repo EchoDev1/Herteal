@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Plus, Edit, Trash2, Save, X, Image as ImageIcon, Package } from 'lucide-react';
+import { Plus, Edit, Trash2, Save, X, Image as ImageIcon, Package, ChevronDown, ChevronUp } from 'lucide-react';
 import ImageUpload from '@/components/admin/ImageUpload';
 import VideoUpload from '@/components/admin/VideoUpload';
 import { useCollections, Collection } from '@/contexts/CollectionsContext';
@@ -10,7 +10,7 @@ import { useCollections, Collection } from '@/contexts/CollectionsContext';
 export default function CollectionsManagementPage() {
   const { collections, isLoaded, addCollection, updateCollection, deleteCollection } = useCollections();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [editingCollection, setEditingCollection] = useState<Collection | null>(null);
   const [formData, setFormData] = useState<Partial<Collection>>({
     name: '',
@@ -22,8 +22,7 @@ export default function CollectionsManagementPage() {
     order: 1,
   });
 
-  const handleAdd = () => {
-    setEditingCollection(null);
+  const resetForm = () => {
     setFormData({
       name: '',
       slug: '',
@@ -31,15 +30,27 @@ export default function CollectionsManagementPage() {
       image: '',
       video: '',
       featured: false,
-      order: collections.length + 1,
+      order: 1,
     });
-    setIsModalOpen(true);
+    setEditingCollection(null);
+  };
+
+  const handleAdd = () => {
+    resetForm();
+    setFormData((prev) => ({ ...prev, order: collections.length + 1 }));
+    setShowForm(true);
+    setTimeout(() => {
+      document.getElementById('collection-form-top')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   const handleEdit = (collection: Collection) => {
     setEditingCollection(collection);
     setFormData(collection);
-    setIsModalOpen(true);
+    setShowForm(true);
+    setTimeout(() => {
+      document.getElementById('collection-form-top')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   const handleDelete = (id: string) => {
@@ -56,10 +67,8 @@ export default function CollectionsManagementPage() {
       }
 
       if (editingCollection) {
-        // Update existing collection
         updateCollection(editingCollection.id, formData);
       } else {
-        // Add new collection
         addCollection({
           name: formData.name!,
           slug: formData.slug!,
@@ -71,17 +80,8 @@ export default function CollectionsManagementPage() {
         });
       }
 
-      setIsModalOpen(false);
-    setFormData({
-      name: '',
-      slug: '',
-      description: '',
-      image: '',
-      video: '',
-      featured: false,
-      order: 1,
-    });
-    setEditingCollection(null);
+      setShowForm(false);
+      resetForm();
     } catch (error) {
       console.error('Error saving collection:', error);
       alert('An error occurred while saving. Please try again.');
@@ -89,17 +89,17 @@ export default function CollectionsManagementPage() {
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    setShowForm(false);
+    resetForm();
+  };
+
+  // Auto-generate slug from name
+  const handleNameChange = (name: string) => {
     setFormData({
-      name: '',
-      slug: '',
-      description: '',
-      image: '',
-      video: '',
-      featured: false,
-      order: 1,
+      ...formData,
+      name,
+      slug: editingCollection ? formData.slug : name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
     });
-    setEditingCollection(null);
   };
 
   if (!isLoaded) {
@@ -128,6 +128,164 @@ export default function CollectionsManagementPage() {
           Add Collection
         </button>
       </div>
+
+      {/* Inline Create / Edit Collection Form */}
+      {showForm && (
+        <div id="collection-form-top" className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+          {/* Form Header */}
+          <div className="bg-[#2C5530] px-6 py-4 flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-bold text-white">
+                {editingCollection ? 'Edit Collection' : 'Create New Collection'}
+              </h2>
+              <p className="text-sm text-white/70 mt-0.5">
+                {editingCollection ? 'Update the collection details below' : 'Fill in the details to add a new collection'}
+              </p>
+            </div>
+            <button
+              onClick={handleCancel}
+              className="p-2 hover:bg-white/10 rounded-lg transition-colors text-white"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Form Body */}
+          <div className="p-6 space-y-6">
+            {/* Section 1: Basic Info */}
+            <div>
+              <h3 className="text-sm font-semibold text-[#2C5530] uppercase tracking-wide mb-4 flex items-center gap-2">
+                <span className="w-6 h-6 bg-[#7A916C] text-white rounded-full flex items-center justify-center text-xs">1</span>
+                Basic Information
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Collection Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.name || ''}
+                    onChange={(e) => handleNameChange(e.target.value)}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
+                    placeholder="e.g., Evening Dresses"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    URL Slug <span className="text-red-500">*</span>
+                  </label>
+                  <div className="flex items-center">
+                    <span className="px-3 py-2.5 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg text-sm text-gray-500">/</span>
+                    <input
+                      type="text"
+                      value={formData.slug || ''}
+                      onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
+                      placeholder="evening-dresses"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  Description
+                </label>
+                <textarea
+                  value={formData.description || ''}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  rows={3}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
+                  placeholder="Brief description of this collection..."
+                />
+              </div>
+            </div>
+
+            {/* Divider */}
+            <hr className="border-gray-200" />
+
+            {/* Section 2: Media */}
+            <div>
+              <h3 className="text-sm font-semibold text-[#2C5530] uppercase tracking-wide mb-4 flex items-center gap-2">
+                <span className="w-6 h-6 bg-[#7A916C] text-white rounded-full flex items-center justify-center text-xs">2</span>
+                Media
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <ImageUpload
+                  label="Collection Image"
+                  value={formData.image || ''}
+                  onChange={(url) => setFormData({ ...formData, image: url })}
+                />
+                <VideoUpload
+                  label="Collection Video"
+                  value={formData.video || ''}
+                  onChange={(url) => setFormData({ ...formData, video: url })}
+                />
+              </div>
+            </div>
+
+            {/* Divider */}
+            <hr className="border-gray-200" />
+
+            {/* Section 3: Settings */}
+            <div>
+              <h3 className="text-sm font-semibold text-[#2C5530] uppercase tracking-wide mb-4 flex items-center gap-2">
+                <span className="w-6 h-6 bg-[#7A916C] text-white rounded-full flex items-center justify-center text-xs">3</span>
+                Settings
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Display Order
+                  </label>
+                  <input
+                    type="number"
+                    value={formData.order || 1}
+                    onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white"
+                    min="1"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Controls the order collections appear on the site</p>
+                </div>
+
+                <div className="flex items-start pt-7">
+                  <label className="flex items-center gap-3 cursor-pointer bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 w-full hover:bg-gray-100 transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={formData.featured || false}
+                      onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
+                      className="w-5 h-5 text-[#7A916C] border-gray-300 rounded focus:ring-[#7A916C]"
+                    />
+                    <div>
+                      <span className="text-sm font-medium text-gray-700 block">Featured Collection</span>
+                      <span className="text-xs text-gray-500">Show on the homepage</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Form Footer */}
+          <div className="bg-gray-50 border-t border-gray-200 px-6 py-4 flex flex-col sm:flex-row justify-end gap-3">
+            <button
+              onClick={handleCancel}
+              className="w-full sm:w-auto px-6 py-2.5 bg-white text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSave}
+              className="w-full sm:w-auto px-6 py-2.5 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors flex items-center justify-center gap-2 font-medium"
+            >
+              <Save className="w-4 h-4" />
+              {editingCollection ? 'Save Changes' : 'Create Collection'}
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Collections Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -192,125 +350,13 @@ export default function CollectionsManagementPage() {
         ))}
       </div>
 
-      {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-start justify-center z-50 p-2">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[calc(100vh-1rem)] flex flex-col">
-            {/* Modal Header */}
-            <div className="flex-shrink-0 bg-white border-b border-gray-200 p-4 sm:p-6 flex items-center justify-between rounded-t-lg">
-              <h2 className="text-lg sm:text-2xl font-bold text-[#2C5530]">
-                {editingCollection ? 'Edit Collection' : 'Add New Collection'}
-              </h2>
-              <button
-                onClick={handleCancel}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Modal Content */}
-            <div className="flex-1 min-h-0 p-4 sm:p-6 space-y-4 overflow-y-auto">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Collection Name *
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.name || ''}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
-                    placeholder="e.g., Dresses"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    URL Slug *
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.slug || ''}
-                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
-                    placeholder="e.g., dresses"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Description
-                </label>
-                <textarea
-                  value={formData.description || ''}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
-                  placeholder="Brief description of this collection"
-                />
-              </div>
-
-              {/* Image and Video Upload - Side by Side */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <ImageUpload
-                  label="Collection Image"
-                  value={formData.image || ''}
-                  onChange={(url) => setFormData({ ...formData, image: url })}
-                />
-                <VideoUpload
-                  label="Collection Video"
-                  value={formData.video || ''}
-                  onChange={(url) => setFormData({ ...formData, video: url })}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Display Order
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.order || 1}
-                    onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white"
-                    min="1"
-                  />
-                </div>
-
-                <div className="flex items-center">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.featured || false}
-                      onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                      className="w-5 h-5 text-[#7A916C] border-gray-300 rounded focus:ring-[#7A916C]"
-                    />
-                    <span className="text-sm font-medium text-gray-700">Featured Collection</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            {/* Modal Footer */}
-            <div className="flex-shrink-0 bg-gray-50 border-t border-gray-200 p-4 sm:p-6 flex flex-col sm:flex-row justify-end gap-3 rounded-b-lg">
-              <button
-                onClick={handleCancel}
-                className="w-full sm:w-auto px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors order-2 sm:order-1"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSave}
-                className="w-full sm:w-auto px-6 py-2 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors flex items-center justify-center gap-2 order-1 sm:order-2"
-              >
-                <Save className="w-4 h-4" />
-                {editingCollection ? 'Save Changes' : 'Create Collection'}
-              </button>
-            </div>
-          </div>
+      {collections.length === 0 && !showForm && (
+        <div className="text-center py-12 text-gray-600">
+          No collections yet.{' '}
+          <button onClick={handleAdd} className="text-[#7A916C] font-medium hover:underline">
+            Create your first collection
+          </button>
+          .
         </div>
       )}
 
