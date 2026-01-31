@@ -28,8 +28,8 @@ export default function SignInPage() {
 
       // Redirect to home page after successful login
       router.push('/');
-    } catch (err: any) {
-      setError(err.message || 'Failed to sign in');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to sign in');
       setIsLoading(false);
     }
   };

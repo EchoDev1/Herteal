@@ -48,7 +48,7 @@ export default function ProductGallery({
 
       {/* Thumbnails */}
       {totalItems > 1 && (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-4">
           {/* Video thumbnail first if video exists */}
           {hasVideo && (
             <button

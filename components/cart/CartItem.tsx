@@ -63,8 +63,9 @@ export default function CartItem({ item }: CartItemProps) {
         <div className="flex items-center gap-6 mt-4">
           <div className="flex items-center gap-3">
             <button
-              onClick={() => handleQuantityChange(item.quantity - 1)}
-              className="w-8 h-8 border border-[#F0F0F0] hover:border-[#7A916C] transition-colors text-sm font-[family-name:var(--font-montserrat)]"
+              onClick={() => handleQuantityChange(Math.max(1, item.quantity - 1))}
+              disabled={item.quantity <= 1}
+              className={`w-8 h-8 border border-[#F0F0F0] transition-colors text-sm font-[family-name:var(--font-montserrat)] ${item.quantity <= 1 ? 'opacity-30 cursor-not-allowed' : 'hover:border-[#7A916C]'}`}
             >
               −
             </button>

@@ -100,7 +100,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
             Size Guide
           </button>
         </div>
-        <div className="grid grid-cols-5 gap-3">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 sm:gap-3">
           {product.sizes.map((size) => (
             <button
               key={size.label}

@@ -148,6 +148,7 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="p-2 hover:bg-gray-50 rounded-lg transition-colors pointer-events-auto cursor-pointer group"
                 aria-label="Toggle menu"
+                aria-expanded={mobileMenuOpen}
                 type="button"
               >
                 <div className="w-6 h-5 flex flex-col justify-between">

@@ -9,7 +9,7 @@ interface NavigationProps {
 export default function Navigation({ className = '', onLinkClick }: NavigationProps) {
   return (
     <nav className={className}>
-      <ul className="flex flex-col md:flex-row items-center gap-8">
+      <ul className="flex flex-col sm:flex-row flex-wrap items-center gap-4 sm:gap-6 md:gap-8">
         {NAV_LINKS.map((link) => (
           <li key={link.href}>
             <Link

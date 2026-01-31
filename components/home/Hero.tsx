@@ -25,7 +25,7 @@ export default function Hero() {
         <div className="max-w-3xl space-y-8">
           {/* Brand Logo - Styled */}
           <div className="space-y-4">
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-[family-name:var(--font-playfair)] font-bold">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-[family-name:var(--font-playfair)] font-bold">
               <span className="inline-block bg-[#7A916C] text-white px-3 py-1">HER</span>
               <span className="text-white">TEALS</span>
             </h1>
@@ -41,7 +41,7 @@ export default function Hero() {
           </div>
 
           {/* Tagline */}
-          <p className="text-xl md:text-2xl lg:text-3xl text-white font-[family-name:var(--font-playfair)] font-light italic leading-relaxed">
+          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-white font-[family-name:var(--font-playfair)] font-light italic leading-relaxed">
             Where Luxury Tailoring Meets Contemporary Elegance
           </p>
 
@@ -62,7 +62,7 @@ export default function Hero() {
           </div>
 
           {/* Scroll Indicator */}
-          <div className="pt-8 animate-bounce">
+          <div className="pt-8 animate-bounce" aria-hidden="true">
             <svg
               className="w-6 h-6 mx-auto text-white/70"
               fill="none"

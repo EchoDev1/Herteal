@@ -9,7 +9,7 @@ export default function CartSummary() {
   const freeShippingRemaining = FREE_SHIPPING_THRESHOLD - subtotal;
 
   return (
-    <div className="bg-[#F9F9F9] p-6 md:p-8 sticky top-24 border border-[#F0F0F0]">
+    <div className="bg-[#F9F9F9] p-6 md:p-8 lg:sticky lg:top-28 border border-[#F0F0F0]">
       <h2 className="text-2xl font-[family-name:var(--font-playfair)] font-bold text-[#2D2D2D] mb-6">Order Summary</h2>
 
       <div className="space-y-3 mb-6">

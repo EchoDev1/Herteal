@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/store/cartStore';
 import { generateId } from '@/lib/utils';
@@ -99,9 +99,18 @@ export default function CheckoutPage() {
     }, 1500);
   };
 
+  useEffect(() => {
+    if (items.length === 0) {
+      router.push('/cart');
+    }
+  }, [items.length, router]);
+
   if (items.length === 0) {
-    router.push('/cart');
-    return null;
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#7A916C]"></div>
+      </div>
+    );
   }
 
   return (
@@ -123,7 +132,7 @@ export default function CheckoutPage() {
 
             {/* Order Summary */}
             <div className="lg:col-span-1">
-              <div className="sticky top-24">
+              <div className="lg:sticky lg:top-28">
                 <OrderSummary />
                 <Button
                   variant="primary"

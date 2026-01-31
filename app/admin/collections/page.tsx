@@ -129,160 +129,241 @@ export default function CollectionsManagementPage() {
         </button>
       </div>
 
-      {/* Inline Create / Edit Collection Form */}
+      {/* Enhanced Inline Create / Edit Collection Form */}
       {showForm && (
-        <div id="collection-form-top" className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
-          {/* Form Header */}
-          <div className="bg-[#2C5530] px-6 py-4 flex items-center justify-between">
-            <div>
-              <h2 className="text-lg font-bold text-white">
-                {editingCollection ? 'Edit Collection' : 'Create New Collection'}
-              </h2>
-              <p className="text-sm text-white/70 mt-0.5">
-                {editingCollection ? 'Update the collection details below' : 'Fill in the details to add a new collection'}
-              </p>
+        <div id="collection-form-top" className="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border-2 border-[#7A916C]/30 overflow-hidden">
+          {/* Form Header - Enhanced with gradient */}
+          <div className="bg-gradient-to-r from-[#2C5530] to-[#7A916C] px-8 py-6 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+                <Package className="w-7 h-7 text-white" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                  {editingCollection ? 'Edit Collection' : 'Create New Collection'}
+                  <span className="px-2 py-0.5 bg-white/20 rounded-full text-xs font-medium">
+                    {editingCollection ? 'Update Mode' : 'Add Mode'}
+                  </span>
+                </h2>
+                <p className="text-sm text-white/90 mt-1">
+                  {editingCollection ? 'Update the collection information and settings below' : 'Add a new collection to organize your products'}
+                </p>
+              </div>
             </div>
             <button
               onClick={handleCancel}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors text-white"
+              className="p-2.5 hover:bg-white/20 rounded-xl transition-all duration-200 text-white hover:rotate-90"
             >
-              <X className="w-5 h-5" />
+              <X className="w-6 h-6" />
             </button>
           </div>
 
-          {/* Form Body */}
-          <div className="p-6 space-y-6">
-            {/* Section 1: Basic Info */}
-            <div>
-              <h3 className="text-sm font-semibold text-[#2C5530] uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span className="w-6 h-6 bg-[#7A916C] text-white rounded-full flex items-center justify-center text-xs">1</span>
-                Basic Information
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Form Body - Enhanced with better spacing and visual hierarchy */}
+          <div className="p-8 space-y-8">
+            {/* Section 1: Basic Info - Enhanced */}
+            <div className="bg-white rounded-xl p-6 shadow-md border border-[#7A916C]/20">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-[#7A916C] to-[#2C5530] text-white rounded-xl flex items-center justify-center text-sm font-bold shadow-lg">
+                  1
+                </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  <h3 className="text-base font-bold text-[#2C5530] uppercase tracking-wide">
+                    Basic Information
+                  </h3>
+                  <p className="text-xs text-gray-500 mt-0.5">Enter the collection name and URL slug</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-[#7A916C] rounded-full"></span>
                     Collection Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     value={formData.name || ''}
                     onChange={(e) => handleNameChange(e.target.value)}
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
-                    placeholder="e.g., Evening Dresses"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#7A916C] focus:border-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400 transition-all duration-200 font-medium"
+                    placeholder="e.g., Evening Dresses Collection"
                   />
+                  <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                    <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                    This will be displayed as the main title of your collection
+                  </p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-[#7A916C] rounded-full"></span>
                     URL Slug <span className="text-red-500">*</span>
                   </label>
                   <div className="flex items-center">
-                    <span className="px-3 py-2.5 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg text-sm text-gray-500">/</span>
+                    <span className="px-4 py-3 bg-gradient-to-r from-gray-100 to-gray-50 border-2 border-r-0 border-gray-200 rounded-l-xl text-sm text-gray-600 font-bold">/shop/</span>
                     <input
                       type="text"
                       value={formData.slug || ''}
                       onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-r-xl focus:ring-2 focus:ring-[#7A916C] focus:border-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400 transition-all duration-200 font-medium"
                       placeholder="evening-dresses"
                     />
                   </div>
+                  <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                    <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                    URL-friendly version (lowercase, hyphens only)
+                  </p>
                 </div>
               </div>
 
-              <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <div className="mt-6">
+                <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-[#7A916C] rounded-full"></span>
                   Description
                 </label>
                 <textarea
                   value={formData.description || ''}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  rows={3}
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white placeholder:text-gray-400"
-                  placeholder="Brief description of this collection..."
+                  rows={4}
+                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#7A916C] focus:border-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400 transition-all duration-200 resize-none"
+                  placeholder="Write a compelling description that highlights what makes this collection special. This will help customers understand the collection's theme and style."
                 />
+                <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                  <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                  A good description helps customers discover products and improves SEO
+                </p>
               </div>
             </div>
 
-            {/* Divider */}
-            <hr className="border-gray-200" />
-
-            {/* Section 2: Media */}
-            <div>
-              <h3 className="text-sm font-semibold text-[#2C5530] uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span className="w-6 h-6 bg-[#7A916C] text-white rounded-full flex items-center justify-center text-xs">2</span>
-                Media
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <ImageUpload
-                  label="Collection Image"
-                  value={formData.image || ''}
-                  onChange={(url) => setFormData({ ...formData, image: url })}
-                />
-                <VideoUpload
-                  label="Collection Video"
-                  value={formData.video || ''}
-                  onChange={(url) => setFormData({ ...formData, video: url })}
-                />
-              </div>
-            </div>
-
-            {/* Divider */}
-            <hr className="border-gray-200" />
-
-            {/* Section 3: Settings */}
-            <div>
-              <h3 className="text-sm font-semibold text-[#2C5530] uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span className="w-6 h-6 bg-[#7A916C] text-white rounded-full flex items-center justify-center text-xs">3</span>
-                Settings
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Section 2: Media - Enhanced */}
+            <div className="bg-white rounded-xl p-6 shadow-md border border-[#7A916C]/20">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-[#7A916C] to-[#2C5530] text-white rounded-xl flex items-center justify-center text-sm font-bold shadow-lg">
+                  2
+                </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  <h3 className="text-base font-bold text-[#2C5530] uppercase tracking-wide">
+                    Media Assets
+                  </h3>
+                  <p className="text-xs text-gray-500 mt-0.5">Upload images and videos to showcase your collection</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <ImageUpload
+                    label="Collection Cover Image"
+                    value={formData.image || ''}
+                    onChange={(url) => setFormData({ ...formData, image: url })}
+                  />
+                  <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                    <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                    High-quality image (min 1200x800px) for best display
+                  </p>
+                </div>
+                <div>
+                  <VideoUpload
+                    label="Collection Video (Optional)"
+                    value={formData.video || ''}
+                    onChange={(url) => setFormData({ ...formData, video: url })}
+                  />
+                  <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                    <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                    Add a video to create an engaging experience
+                  </p>
+                </div>
+              </div>
+
+              {/* Media Preview Tip */}
+              <div className="mt-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
+                <p className="text-sm text-blue-800">
+                  <strong className="font-semibold">Pro Tip:</strong> Use high-quality images that represent your collection's style. Videos can increase engagement by up to 80%!
+                </p>
+              </div>
+            </div>
+
+            {/* Section 3: Settings - Enhanced */}
+            <div className="bg-white rounded-xl p-6 shadow-md border border-[#7A916C]/20">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-[#7A916C] to-[#2C5530] text-white rounded-xl flex items-center justify-center text-sm font-bold shadow-lg">
+                  3
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-[#2C5530] uppercase tracking-wide">
+                    Display Settings
+                  </h3>
+                  <p className="text-xs text-gray-500 mt-0.5">Configure how this collection appears on your site</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-[#7A916C] rounded-full"></span>
                     Display Order
                   </label>
                   <input
                     type="number"
                     value={formData.order || 1}
                     onChange={(e) => setFormData({ ...formData, order: parseInt(e.target.value) })}
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white"
+                    className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#7A916C] focus:border-[#7A916C] text-gray-900 bg-white font-bold text-lg"
                     min="1"
                   />
-                  <p className="text-xs text-gray-500 mt-1">Controls the order collections appear on the site</p>
+                  <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                    <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                    Lower numbers appear first (1 = top position)
+                  </p>
                 </div>
 
-                <div className="flex items-start pt-7">
-                  <label className="flex items-center gap-3 cursor-pointer bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 w-full hover:bg-gray-100 transition-colors">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-[#7A916C] rounded-full"></span>
+                    Visibility Options
+                  </label>
+                  <label className="flex items-center gap-3 cursor-pointer bg-gradient-to-r from-gray-50 to-white border-2 border-gray-200 rounded-xl px-5 py-4 hover:border-[#7A916C] hover:shadow-md transition-all duration-200">
                     <input
                       type="checkbox"
                       checked={formData.featured || false}
                       onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                      className="w-5 h-5 text-[#7A916C] border-gray-300 rounded focus:ring-[#7A916C]"
+                      className="w-6 h-6 text-[#7A916C] border-gray-300 rounded-lg focus:ring-[#7A916C]"
                     />
                     <div>
-                      <span className="text-sm font-medium text-gray-700 block">Featured Collection</span>
-                      <span className="text-xs text-gray-500">Show on the homepage</span>
+                      <span className="text-sm font-bold text-gray-800 block flex items-center gap-2">
+                        Featured Collection
+                        <span className="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs rounded-full">⭐</span>
+                      </span>
+                      <span className="text-xs text-gray-600">Display prominently on the homepage</span>
                     </div>
                   </label>
+                  <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                    <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                    Featured collections get priority placement
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Form Footer */}
-          <div className="bg-gray-50 border-t border-gray-200 px-6 py-4 flex flex-col sm:flex-row justify-end gap-3">
-            <button
-              onClick={handleCancel}
-              className="w-full sm:w-auto px-6 py-2.5 bg-white text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleSave}
-              className="w-full sm:w-auto px-6 py-2.5 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors flex items-center justify-center gap-2 font-medium"
-            >
-              <Save className="w-4 h-4" />
-              {editingCollection ? 'Save Changes' : 'Create Collection'}
-            </button>
+          {/* Form Footer - Enhanced */}
+          <div className="bg-gradient-to-r from-gray-50 to-gray-100 border-t-2 border-gray-200 px-8 py-5 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="text-sm text-gray-600 flex items-center gap-2">
+              <span className="text-red-500">*</span>
+              <span>Required fields must be filled</span>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+              <button
+                onClick={handleCancel}
+                className="w-full sm:w-auto px-8 py-3 bg-white text-gray-700 border-2 border-gray-300 rounded-xl hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 font-semibold shadow-sm"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSave}
+                className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-[#7A916C] to-[#2C5530] text-white rounded-xl hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2 font-bold transform hover:scale-105"
+              >
+                <Save className="w-5 h-5" />
+                {editingCollection ? 'Save Changes' : 'Create Collection'}
+              </button>
+            </div>
           </div>
         </div>
       )}

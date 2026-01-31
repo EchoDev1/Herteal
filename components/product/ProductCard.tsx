@@ -13,7 +13,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/product/${product.slug}`}
-      className="group block transform transition-all duration-300 hover:-translate-y-2"
+      className="group block transform transition-all duration-300 hover:-translate-y-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7A916C] focus-visible:ring-offset-2 rounded-sm"
     >
       {/* Image Container - Enhanced Hover */}
       <div className="relative aspect-[2/3] overflow-hidden bg-[#F9F9F9] mb-4 shadow-sm group-hover:shadow-2xl transition-shadow duration-300 border border-transparent group-hover:border-[#7A916C]">

@@ -76,8 +76,8 @@ export default function SignUpPage() {
       setTimeout(() => {
         router.push('/signin');
       }, 3000);
-    } catch (err: any) {
-      setError(err.message || 'Failed to create account');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to create account');
       setIsLoading(false);
     }
   };

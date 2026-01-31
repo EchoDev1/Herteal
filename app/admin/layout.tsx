@@ -4,6 +4,19 @@ import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
+import { InventoryProvider } from '@/contexts/InventoryContext';
+import { DiscountsProvider } from '@/contexts/DiscountsContext';
+import { ShippingProvider } from '@/contexts/ShippingContext';
+import { TaxProvider } from '@/contexts/TaxContext';
+import { ReturnsProvider } from '@/contexts/ReturnsContext';
+import { ReviewsProvider } from '@/contexts/ReviewsContext';
+import { SupportProvider } from '@/contexts/SupportContext';
+import { BlogProvider } from '@/contexts/BlogContext';
+import { MediaProvider } from '@/contexts/MediaContext';
+import { EmailMarketingProvider } from '@/contexts/EmailMarketingContext';
+import { SEOProvider } from '@/contexts/SEOContext';
+import { NotificationsProvider } from '@/contexts/NotificationsContext';
+import { ActivityLogsProvider } from '@/contexts/ActivityLogsContext';
 import {
   LayoutDashboard,
   Package,
@@ -15,7 +28,20 @@ import {
   Settings,
   LogOut,
   Menu,
-  X
+  X,
+  TrendingUp,
+  Tag,
+  Truck,
+  BookOpen,
+  Star,
+  Mail,
+  Globe,
+  Image,
+  Activity,
+  Bell,
+  Receipt,
+  RotateCcw,
+  MessageSquare
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -91,13 +117,27 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   const navItems = [
     { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/admin/analytics', label: 'Analytics & Reports', icon: TrendingUp },
     { href: '/admin/collections', label: 'Collections', icon: Layers },
-    { href: '/admin/homepage', label: 'Homepage Sections', icon: Home },
-    { href: '/admin/orders', label: 'Orders', icon: ShoppingCart },
-    { href: '/admin/pages', label: 'Pages', icon: FileText },
     { href: '/admin/products', label: 'Products', icon: Package },
-    { href: '/admin/settings', label: 'Settings', icon: Settings },
+    { href: '/admin/inventory', label: 'Inventory', icon: Package },
+    { href: '/admin/orders', label: 'Orders', icon: ShoppingCart },
+    { href: '/admin/discounts', label: 'Discounts & Coupons', icon: Tag },
+    { href: '/admin/shipping', label: 'Shipping', icon: Truck },
+    { href: '/admin/tax-settings', label: 'Tax Settings', icon: Receipt },
+    { href: '/admin/returns', label: 'Returns & Refunds', icon: RotateCcw },
     { href: '/admin/users', label: 'Users', icon: Users },
+    { href: '/admin/reviews', label: 'Reviews', icon: Star },
+    { href: '/admin/support', label: 'Support Tickets', icon: MessageSquare },
+    { href: '/admin/blog', label: 'Blog', icon: BookOpen },
+    { href: '/admin/pages', label: 'Pages', icon: FileText },
+    { href: '/admin/homepage', label: 'Homepage Sections', icon: Home },
+    { href: '/admin/media', label: 'Media Library', icon: Image },
+    { href: '/admin/email-marketing', label: 'Email Marketing', icon: Mail },
+    { href: '/admin/seo', label: 'SEO', icon: Globe },
+    { href: '/admin/notifications', label: 'Notifications', icon: Bell },
+    { href: '/admin/activity-logs', label: 'Activity Logs', icon: Activity },
+    { href: '/admin/settings', label: 'Settings', icon: Settings },
   ];
 
   return (
@@ -210,7 +250,33 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Page Content */}
         <div className="p-6">
-          {children}
+          <InventoryProvider>
+          <DiscountsProvider>
+          <ShippingProvider>
+          <TaxProvider>
+          <ReturnsProvider>
+          <ReviewsProvider>
+          <SupportProvider>
+          <BlogProvider>
+          <MediaProvider>
+          <EmailMarketingProvider>
+          <SEOProvider>
+          <NotificationsProvider>
+          <ActivityLogsProvider>
+            {children}
+          </ActivityLogsProvider>
+          </NotificationsProvider>
+          </SEOProvider>
+          </EmailMarketingProvider>
+          </MediaProvider>
+          </BlogProvider>
+          </SupportProvider>
+          </ReviewsProvider>
+          </ReturnsProvider>
+          </TaxProvider>
+          </ShippingProvider>
+          </DiscountsProvider>
+          </InventoryProvider>
         </div>
       </main>
     </div>

@@ -88,9 +88,9 @@ export default function ProductDetailPage({
     <>
       <ProductJsonLd product={product} />
       <div className="section-padding">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-4 sm:px-6">
           {/* Product Detail */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16 mb-8 sm:mb-12 lg:mb-16">
             <ProductGallery images={product.images} productName={product.name} video={product.video} />
             <ProductInfo product={product} />
           </div>

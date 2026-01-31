@@ -233,7 +233,7 @@ export default function AdminProductsPage() {
   );
 }
 
-// Inline Product Form Component
+// Enhanced Inline Product Form Component
 function ProductInlineForm({
   product,
   onSave,
@@ -325,85 +325,115 @@ function ProductInlineForm({
   };
 
   return (
-    <div id="product-form-top" className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
-      {/* Form Header */}
-      <div className="bg-[#2C5530] px-6 py-4 flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-bold text-white">
-            {product ? 'Edit Product' : 'Quick Add Product'}
-          </h2>
-          <p className="text-sm text-white/70 mt-0.5">
-            {product ? 'Update the product details below' : 'Fill in the details to add a new product'}
-          </p>
+    <div id="product-form-top" className="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-2xl border-2 border-[#7A916C]/30 overflow-hidden">
+      {/* Form Header - Enhanced with gradient */}
+      <div className="bg-gradient-to-r from-[#2C5530] to-[#7A916C] px-8 py-6 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+            <Plus className="w-7 h-7 text-white" />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              {product ? 'Edit Product' : 'Quick Add Product'}
+              <span className="px-2 py-0.5 bg-white/20 rounded-full text-xs font-medium">
+                {product ? 'Update Mode' : 'Add Mode'}
+              </span>
+            </h2>
+            <p className="text-sm text-white/90 mt-1">
+              {product ? 'Update the product information and inventory details below' : 'Add a new product to your store inventory'}
+            </p>
+          </div>
         </div>
         <button
           onClick={onClose}
-          className="p-2 hover:bg-white/10 rounded-lg transition-colors text-white"
+          className="p-2.5 hover:bg-white/20 rounded-xl transition-all duration-200 text-white hover:rotate-90"
         >
-          <X className="w-5 h-5" />
+          <X className="w-6 h-6" />
         </button>
       </div>
 
-      {/* Form Body */}
-      <form onSubmit={handleSubmit} className="p-6 space-y-6">
-        {/* Section 1: Basic Details */}
-        <div>
-          <h3 className="text-sm font-semibold text-[#2C5530] uppercase tracking-wide mb-4 flex items-center gap-2">
-            <span className="w-6 h-6 bg-[#7A916C] text-white rounded-full flex items-center justify-center text-xs">1</span>
-            Basic Details
-          </h3>
+      {/* Form Body - Enhanced with better spacing and visual hierarchy */}
+      <form onSubmit={handleSubmit} className="p-8 space-y-8">
+        {/* Section 1: Basic Details - Enhanced */}
+        <div className="bg-white rounded-xl p-6 shadow-md border border-[#7A916C]/20">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#7A916C] to-[#2C5530] text-white rounded-xl flex items-center justify-center text-sm font-bold shadow-lg">
+              1
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-[#2C5530] uppercase tracking-wide">
+                Basic Details
+              </h3>
+              <p className="text-xs text-gray-500 mt-0.5">Enter the product name and description</p>
+            </div>
+          </div>
 
-          <div className="space-y-4">
+          <div className="space-y-6">
             {/* Product Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-[#7A916C] rounded-full"></span>
                 Product Name <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                placeholder="Enter product name"
-                className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400 ${
-                  errors.name ? 'border-red-500' : 'border-gray-300'
+                placeholder="e.g., Elegant Evening Dress"
+                className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400 font-medium transition-all duration-200 ${
+                  errors.name ? 'border-red-500' : 'border-gray-200'
                 }`}
               />
-              {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+              {errors.name && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.name}</p>}
+              <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                Choose a clear, descriptive name that customers will search for
+              </p>
             </div>
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Description
+              <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-[#7A916C] rounded-full"></span>
+                Product Description
               </label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                placeholder="Enter product description"
-                rows={3}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400"
+                placeholder="Describe your product's features, materials, and what makes it special. Include details about fit, care instructions, and unique selling points."
+                rows={4}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400 transition-all duration-200 resize-none"
               />
+              <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                A detailed description helps customers make informed decisions
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Divider */}
-        <hr className="border-gray-200" />
-
-        {/* Section 2: Pricing & Inventory */}
-        <div>
-          <h3 className="text-sm font-semibold text-[#2C5530] uppercase tracking-wide mb-4 flex items-center gap-2">
-            <span className="w-6 h-6 bg-[#7A916C] text-white rounded-full flex items-center justify-center text-xs">2</span>
-            Pricing &amp; Inventory
-          </h3>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Section 2: Pricing & Inventory - Enhanced */}
+        <div className="bg-white rounded-xl p-6 shadow-md border border-[#7A916C]/20">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#7A916C] to-[#2C5530] text-white rounded-xl flex items-center justify-center text-sm font-bold shadow-lg">
+              2
+            </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <h3 className="text-base font-bold text-[#2C5530] uppercase tracking-wide">
+                Pricing &amp; Inventory
+              </h3>
+              <p className="text-xs text-gray-500 mt-0.5">Set product price and stock levels</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-[#7A916C] rounded-full"></span>
                 Price ({'\u20A6'}) <span className="text-red-500">*</span>
               </label>
               <div className="flex items-center">
-                <span className="px-3 py-2.5 bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg text-sm text-gray-500 font-medium">{'\u20A6'}</span>
+                <span className="px-4 py-3 bg-gradient-to-r from-gray-100 to-gray-50 border-2 border-r-0 border-gray-200 rounded-l-xl text-sm text-gray-600 font-bold">{'\u20A6'}</span>
                 <input
                   type="number"
                   value={formData.price}
@@ -411,55 +441,69 @@ function ProductInlineForm({
                   placeholder="0.00"
                   min="0"
                   step="0.01"
-                  className={`w-full px-4 py-2.5 border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400 ${
-                    errors.price ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-4 py-3 border-2 rounded-r-xl focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400 font-bold text-lg transition-all duration-200 ${
+                    errors.price ? 'border-red-500' : 'border-gray-200'
                   }`}
                 />
               </div>
-              {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price}</p>}
+              {errors.price && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.price}</p>}
+              <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                Set competitive pricing based on market research
+              </p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-[#7A916C] rounded-full"></span>
                 Stock Quantity <span className="text-red-500">*</span>
               </label>
               <input
                 type="number"
                 value={formData.stock}
                 onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
-                placeholder="Enter stock quantity"
+                placeholder="Enter available quantity"
                 min="0"
-                className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400 ${
-                  errors.stock ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white placeholder:text-gray-400 font-bold text-lg transition-all duration-200 ${
+                  errors.stock ? 'border-red-500' : 'border-gray-200'
                 }`}
               />
-              {errors.stock && <p className="text-red-500 text-xs mt-1">{errors.stock}</p>}
+              {errors.stock && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.stock}</p>}
+              <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                Track inventory to prevent overselling
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Divider */}
-        <hr className="border-gray-200" />
-
-        {/* Section 3: Category & Collection */}
-        <div>
-          <h3 className="text-sm font-semibold text-[#2C5530] uppercase tracking-wide mb-4 flex items-center gap-2">
-            <span className="w-6 h-6 bg-[#7A916C] text-white rounded-full flex items-center justify-center text-xs">3</span>
-            Category &amp; Collection
-          </h3>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Section 3: Category & Collection - Enhanced */}
+        <div className="bg-white rounded-xl p-6 shadow-md border border-[#7A916C]/20">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#7A916C] to-[#2C5530] text-white rounded-xl flex items-center justify-center text-sm font-bold shadow-lg">
+              3
+            </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Category <span className="text-red-500">*</span>
+              <h3 className="text-base font-bold text-[#2C5530] uppercase tracking-wide">
+                Category &amp; Collection
+              </h3>
+              <p className="text-xs text-gray-500 mt-0.5">Organize your product for better discovery</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-[#7A916C] rounded-full"></span>
+                Product Category <span className="text-red-500">*</span>
               </label>
               <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className={`w-full px-4 py-2.5 border rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white ${
-                  errors.category ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white font-medium transition-all duration-200 ${
+                  errors.category ? 'border-red-500' : 'border-gray-200'
                 }`}
               >
-                <option value="">Select category</option>
+                <option value="">Select a category</option>
                 <option value="Dresses">Dresses</option>
                 <option value="Suits">Suits</option>
                 <option value="Blouses">Blouses</option>
@@ -467,116 +511,175 @@ function ProductInlineForm({
                 <option value="Modern">Modern</option>
                 <option value="Accessories">Accessories</option>
               </select>
-              {errors.category && <p className="text-red-500 text-xs mt-1">{errors.category}</p>}
+              {errors.category && <p className="text-red-500 text-xs mt-1 font-semibold">{errors.category}</p>}
+              <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                Categories help customers filter and find products
+              </p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-[#7A916C] rounded-full"></span>
                 Homepage Collection
-                <span className="text-gray-400 font-normal ml-1 text-xs">(for homepage display)</span>
               </label>
               <select
                 value={formData.collection}
                 onChange={(e) => setFormData({ ...formData, collection: e.target.value })}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#7A916C] focus:border-transparent text-gray-900 bg-white font-medium transition-all duration-200"
               >
                 <option value="">No collection (won&apos;t show on homepage)</option>
                 <option value="Ready To Wear Collection">Ready To Wear Collection</option>
                 <option value="The Art Of Herteals">The Art Of Herteals</option>
               </select>
+              <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                Feature this product on homepage in a collection
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Divider */}
-        <hr className="border-gray-200" />
-
-        {/* Section 4: Status & Visibility */}
-        <div>
-          <h3 className="text-sm font-semibold text-[#2C5530] uppercase tracking-wide mb-4 flex items-center gap-2">
-            <span className="w-6 h-6 bg-[#7A916C] text-white rounded-full flex items-center justify-center text-xs">4</span>
-            Status &amp; Visibility
-          </h3>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Section 4: Status & Visibility - Enhanced */}
+        <div className="bg-white rounded-xl p-6 shadow-md border border-[#7A916C]/20">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#7A916C] to-[#2C5530] text-white rounded-xl flex items-center justify-center text-sm font-bold shadow-lg">
+              4
+            </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Status</label>
+              <h3 className="text-base font-bold text-[#2C5530] uppercase tracking-wide">
+                Status &amp; Visibility
+              </h3>
+              <p className="text-xs text-gray-500 mt-0.5">Control product availability and promotion</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-[#7A916C] rounded-full"></span>
+                Product Status
+              </label>
               <select
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value as 'active' | 'inactive' })}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#7A916C] text-gray-900 bg-white font-medium transition-all duration-200"
               >
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
+                <option value="active">Active - Visible to customers</option>
+                <option value="inactive">Inactive - Hidden from store</option>
               </select>
+              <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                Inactive products won&apos;t appear in the store
+              </p>
             </div>
-            <div className="flex items-start pt-7">
-              <label className="flex items-center gap-3 cursor-pointer bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 w-full hover:bg-gray-100 transition-colors">
+            <div>
+              <label className="block text-sm font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-[#7A916C] rounded-full"></span>
+                Promotion Options
+              </label>
+              <label className="flex items-center gap-3 cursor-pointer bg-gradient-to-r from-gray-50 to-white border-2 border-gray-200 rounded-xl px-5 py-4 hover:border-[#7A916C] hover:shadow-md transition-all duration-200">
                 <input
                   type="checkbox"
                   checked={formData.featured}
                   onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                  className="w-5 h-5 text-[#7A916C] border-gray-300 rounded focus:ring-[#7A916C]"
+                  className="w-6 h-6 text-[#7A916C] border-gray-300 rounded-lg focus:ring-[#7A916C]"
                 />
                 <div>
-                  <span className="text-sm font-medium text-gray-700 block">Featured Product</span>
-                  <span className="text-xs text-gray-500">Highlight on the store</span>
+                  <span className="text-sm font-bold text-gray-800 block flex items-center gap-2">
+                    Featured Product
+                    <span className="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs rounded-full">⭐</span>
+                  </span>
+                  <span className="text-xs text-gray-600">Highlight this product on your store</span>
                 </div>
               </label>
+              <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                Featured products get premium placement
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Divider */}
-        <hr className="border-gray-200" />
+        {/* Section 5: Media - Enhanced */}
+        <div className="bg-white rounded-xl p-6 shadow-md border border-[#7A916C]/20">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#7A916C] to-[#2C5530] text-white rounded-xl flex items-center justify-center text-sm font-bold shadow-lg">
+              5
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-[#2C5530] uppercase tracking-wide">
+                Product Media
+                <span className="text-xs font-normal text-gray-400 normal-case ml-2">(Optional but Recommended)</span>
+              </h3>
+              <p className="text-xs text-gray-500 mt-0.5">Upload high-quality images and videos</p>
+            </div>
+          </div>
 
-        {/* Section 5: Media */}
-        <div>
-          <h3 className="text-sm font-semibold text-[#2C5530] uppercase tracking-wide mb-4 flex items-center gap-2">
-            <span className="w-6 h-6 bg-[#7A916C] text-white rounded-full flex items-center justify-center text-xs">5</span>
-            Media
-            <span className="text-xs font-normal text-gray-400 normal-case">(Optional)</span>
-          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <MultiImageUpload
+                label="Product Images"
+                values={formData.images}
+                onChange={(urls) => setFormData({ ...formData, images: urls })}
+                maxImages={10}
+              />
+              <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                Upload multiple angles (max 10 images)
+              </p>
+            </div>
+            <div>
+              <VideoUpload
+                label="Product Video (Optional)"
+                value={formData.video}
+                onChange={(url) => setFormData({ ...formData, video: url })}
+              />
+              <p className="text-xs text-gray-500 mt-2 flex items-start gap-1">
+                <span className="text-[#7A916C] mt-0.5">ℹ️</span>
+                Videos increase conversion rates significantly
+              </p>
+            </div>
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <MultiImageUpload
-              label="Product Images"
-              values={formData.images}
-              onChange={(urls) => setFormData({ ...formData, images: urls })}
-              maxImages={10}
-            />
-            <VideoUpload
-              label="Product Video"
-              value={formData.video}
-              onChange={(url) => setFormData({ ...formData, video: url })}
-            />
+          {/* Media Pro Tip */}
+          <div className="mt-6 bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
+            <p className="text-sm text-blue-800">
+              <strong className="font-semibold">Pro Tip:</strong> Products with high-quality images and videos see up to 3x more engagement. Show your product from different angles and in use!
+            </p>
           </div>
         </div>
 
-        {/* Tip Box */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-          <p className="text-sm text-blue-700">
-            <strong>Tip:</strong> Select a &quot;Homepage Collection&quot; to display this product on the homepage automatically. Products will appear in the corresponding section.
+        {/* Homepage Collection Info Box */}
+        <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-400 p-5 rounded-lg">
+          <p className="text-sm text-green-800">
+            <strong className="font-semibold">💡 Homepage Display:</strong> Select a &quot;Homepage Collection&quot; above to automatically feature this product on your homepage. Products in collections get 5x more visibility!
           </p>
         </div>
       </form>
 
-      {/* Form Footer */}
-      <div className="bg-gray-50 border-t border-gray-200 px-6 py-4 flex flex-col sm:flex-row justify-end gap-3">
-        <button
-          type="button"
-          onClick={onClose}
-          className="w-full sm:w-auto px-6 py-2.5 bg-white text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          onClick={() => handleSubmit()}
-          className="w-full sm:w-auto px-6 py-2.5 bg-[#7A916C] text-white rounded-lg hover:bg-[#6B8159] transition-colors flex items-center justify-center gap-2 font-medium"
-        >
-          <Save className="w-4 h-4" />
-          {product ? 'Update Product' : 'Add Product'}
-        </button>
+      {/* Form Footer - Enhanced */}
+      <div className="bg-gradient-to-r from-gray-50 to-gray-100 border-t-2 border-gray-200 px-8 py-5 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="text-sm text-gray-600 flex items-center gap-2">
+          <span className="text-red-500">*</span>
+          <span>Required fields must be filled</span>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-full sm:w-auto px-8 py-3 bg-white text-gray-700 border-2 border-gray-300 rounded-xl hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 font-semibold shadow-sm"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={() => handleSubmit()}
+            className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-[#7A916C] to-[#2C5530] text-white rounded-xl hover:shadow-xl transition-all duration-200 flex items-center justify-center gap-2 font-bold transform hover:scale-105"
+          >
+            <Save className="w-5 h-5" />
+            {product ? 'Update Product' : 'Add Product'}
+          </button>
+        </div>
       </div>
     </div>
   );
